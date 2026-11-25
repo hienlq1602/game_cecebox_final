@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cecebox Pháo Đài Láng · ĂGBT</title>
+<style>
+:root{--bg:#FFF8EE;--card:#FFFFFF;--ink:#2B1B10;--muted:#7A6455;--line:#EAD9C5;--brand:#D9541E;--brand-d:#B54316;--gold:#E8A317;--good:#2E7D32;--bad:#C62828;--tint:#FDEBD8;color-scheme:light}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-tap-highlight-color:transparent}
+body{min-height:100vh}
+#app{max-width:480px;margin:0 auto;padding:16px 16px 40px}
+h1{font-size:28px;line-height:1.2;margin:4px 0 4px;font-weight:700}
+h2{font-size:21px;margin:8px 0 6px;font-weight:700}
+p{line-height:1.55;margin:0 0 10px}
+.tag{display:inline-block;font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--brand);font-weight:700}
+.sub{color:var(--muted);font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px;margin:0 0 12px}
+.btn{display:block;width:100%;min-height:48px;padding:10px 16px;font-size:16px;font-weight:600;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;touch-action:manipulation;font-family:inherit}
+.btn:active{transform:scale(.98)}
+.btn.pri{background:var(--brand);border-color:var(--brand);color:#fff}
+.btn.pri:active{background:var(--brand-d)}
+.back{display:inline-block;background:none;border:0;color:var(--muted);font-size:15px;padding:8px 0;cursor:pointer;font-family:inherit}
+.row{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.gcard{display:block;width:100%;text-align:left;font-family:inherit;color:inherit;cursor:pointer;margin:0 0 10px}
+.gcard .t{font-size:17px;font-weight:700;margin:0 0 2px}
+.gcard .d{font-size:14px;color:var(--muted);margin:0 0 6px}
+.gcard .m{font-size:13px;color:var(--muted)}
+.stars{color:var(--gold);letter-spacing:2px;font-size:16px}
+.pass{background:var(--tint);border-color:#F3D3AE}
+.bar{height:10px;border-radius:6px;background:#fff;border:1px solid var(--line);overflow:hidden;margin:8px 0 4px}
+.bar>i{display:block;height:100%;background:var(--brand);width:0}
+.msg{min-height:48px;font-size:15px;line-height:1.5;margin:8px 0}
+.grid2{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.seg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:8px 0 6px}
+.seg button{min-height:44px;font-size:15px;font-weight:600;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-family:inherit;cursor:pointer}
+.seg button[aria-pressed="true"]{border:2px solid var(--brand);background:var(--tint);color:var(--brand-d)}
+.opt{display:block;width:100%;text-align:left;min-height:52px;margin:0 0 8px;padding:12px 14px;font-size:16px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;font-family:inherit;touch-action:manipulation}
+.opt:active{background:var(--tint)}
+.opt.ok{border:2px solid var(--good);background:#E8F5E9}
+.opt.no{border:2px solid var(--bad);background:#FDECEA}
+.opt.used{opacity:.45;border-style:dashed}
+.ref{display:flex;gap:14px;font-size:12px;color:var(--muted);margin:4px 0 10px}
+.ref i{display:inline-block;width:14px;height:14px;border-radius:4px;vertical-align:-3px;margin-right:5px}
+.mem{display:grid;gap:8px;margin:10px 0}
+.mc{aspect-ratio:1/1;border-radius:12px;border:1px solid var(--line);background:var(--brand);color:#fff;font-size:22px;font-weight:700;display:flex;align-items:center;justify-content:center;text-align:center;line-height:1.15;padding:4px;font-family:inherit;cursor:pointer;touch-action:manipulation}
+.mc.up{background:var(--face,#fff);color:var(--ink);font-size:13px}
+.mc.done{background:var(--face,#fff);color:var(--ink);font-size:13px;opacity:.55}
+.pair-icon{display:flex;align-items:center;justify-content:center;gap:2px;max-width:100%;font-size:var(--ic,28px);line-height:1;white-space:nowrap;flex-wrap:nowrap}.pair-icon .food-icon{max-width:none}.pair-icon .food-icon svg{width:calc(var(--ic,28px)*1.5);max-width:none;height:auto}
+.result{border:2px solid var(--brand);border-radius:20px;padding:20px 18px;text-align:center;margin:8px 0 14px;background:#fff}
+.result .big{font-size:26px;font-weight:800;color:var(--brand);margin:6px 0}
+.small{font-size:13px;color:var(--muted)}
+.bill{background:#FFFDF7;border:1px dashed #CDB79B;border-radius:12px;padding:12px 14px;margin:10px 0;font-size:15px}
+.bill div{display:flex;justify-content:space-between;gap:8px;padding:2px 0}
+.hole{aspect-ratio:1/1;border-radius:50%;border:2px solid #CDB79B;background:#EADCC8;font-size:16px;font-weight:700;color:var(--ink);font-family:inherit;cursor:pointer;touch-action:manipulation;padding:0}
+.hole.c{background:#F4D35E;border-color:#C79A12}.hole .food-icon svg{width:48px;height:38px}.hole .food-icon{max-width:48px}
+.hole.t{background:#EE8C85;border-color:#B5382F}
+.clue{background:var(--tint);border-radius:12px;padding:10px 14px;margin:0 0 8px;font-size:16px;line-height:1.45}
+.lock{font-size:12px;color:var(--muted)}
+.fb{display:flex;gap:12px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px;margin:6px 0 8px}
+.bubble{background:var(--tint);border-radius:12px;padding:8px 10px;margin:4px 0;font-size:15px;line-height:1.4}
+.tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:8px 0}
+.tile{position:relative;min-height:76px;border-radius:14px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-family:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:6px 4px;touch-action:manipulation}
+.tile:active{background:var(--tint)}
+.tile .em{font-size:28px;line-height:1}.food-icon{display:inline-flex;vertical-align:middle;align-items:center;justify-content:center}.food-icon svg{display:block;max-width:36px;height:auto}
+.tile .nm{font-size:13px;font-weight:600}
+.tile .badge{position:absolute;top:4px;right:6px;background:var(--brand);color:#fff;border-radius:10px;font-size:12px;font-weight:700;min-width:20px;padding:1px 5px;text-align:center}
+.chip{display:inline-flex;align-items:center;gap:4px;margin:3px 4px 3px 0;padding:6px 10px;border-radius:999px;border:1px solid var(--line);background:var(--tint);font-family:inherit;font-size:15px;font-weight:600;color:var(--ink);cursor:pointer}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.shake{animation:shake .4s 2}
+@media (prefers-reduced-motion:reduce){.shake{animation:none}}
+.tb{border:1px solid var(--line);border-radius:14px;background:var(--card);padding:6px 4px 8px;font-family:inherit;color:var(--ink);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;min-height:132px;touch-action:manipulation;min-width:0}
+.tb .body{display:flex;flex-direction:column;align-items:center;gap:3px;min-height:104px;justify-content:center;width:100%}
+.bub{display:inline-flex;align-items:center;gap:3px;background:var(--tint);border-radius:10px;padding:3px 6px;font-size:11px;line-height:1.15;margin:1px;text-align:left}.bub .ic{font-size:26px;line-height:1;display:inline-flex}.bub .ic .food-icon svg{max-width:34px;height:auto}.tiles.wm .tile{min-height:78px;padding:4px 2px}.tiles.wm .nm{font-size:10.5px;line-height:1.15;text-align:center}.tiles.wm .em{font-size:24px}
+.tile[aria-pressed="true"]{border:2px solid var(--brand);background:var(--tint)}
+.opt.sel{border:2px solid var(--brand);background:var(--tint)}
+.hole{line-height:1;overflow:hidden}
+.tiles.menu .tile{min-height:84px}.tiles.menu .nm{font-size:12px;line-height:1.2;text-align:center}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+(function(){
+var BRAND='Cecebox Pháo Đài Láng · ĂGBT';
+var KEY='goc-giai-tri-v1';
+var GAMES=['fry','quiz','mem','cash','srv','wait','whack'];
+var save=loadSave();
+function loadSave(){
+  try{var s=JSON.parse(localStorage.getItem(KEY));if(s&&s.stars){if(!s.lv)s.lv={};return s}}catch(e){}
+  return {stars:{},hero:null,lv:{}};
+}
+function persist(){try{localStorage.setItem(KEY,JSON.stringify(save))}catch(e){}}
+var LOG_URL='https://script.google.com/macros/s/AKfycbyRaaT7fAlw-T-9uJaF1DweOGyzDprYcVibG8zSpxtH25WVEJgcCpxk_f2hLMcuQ8xI5Q/exec';
+var LOG_KEY='cece-747fc40cdfb5';
+var GAME_NAMES={fry:'Ca chiên',quiz:'Bạn là hệ gà nào?',mem:'Lật thẻ ghép đôi',cash:'Thu ngân tập sự',srv:'Ra món cho khách',wait:'Chạy bàn',whack:'Gà ló đầu'};
+var QKEY='goc-giai-tri-queue',flushing=false,curGame='';
+function p2(n){return (n<10?'0':'')+n}
+function dayStr(){var d=new Date();return d.getFullYear()+'-'+p2(d.getMonth()+1)+'-'+p2(d.getDate())}
+function timeStr(){var d=new Date();return dayStr()+' '+p2(d.getHours())+':'+p2(d.getMinutes())+':'+p2(d.getSeconds())}
+function readQ(){try{var q=JSON.parse(localStorage.getItem(QKEY));return Array.isArray(q)?q:[]}catch(e){return []}}
+function writeQ(q){try{localStorage.setItem(QKEY,JSON.stringify(q))}catch(e){}}
+function flushLog(){
+  if(!LOG_URL||!LOG_KEY||flushing)return;
+  var q=readQ();if(!q.length)return;
+  flushing=true;
+  try{
+    fetch(LOG_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({key:LOG_KEY,rows:q.slice(0,50)})})
+      .then(function(){writeQ(readQ().slice(Math.min(q.length,50)));flushing=false})
+      .catch(function(){flushing=false});
+  }catch(e){flushing=false}
+}
+function logEvent(ev,game,lv,stars){
+  if(!save.nick)return;
+  var row=[timeStr(),dayStr(),save.nick,save.did||'',ev,GAME_NAMES[game]||game||'',lv==null?'':(LVN[lv]||''),stars==null?'':stars];
+  var q=readQ();q.push(row);if(q.length>300)q=q.slice(-300);writeQ(q);flushLog();
+}
+function giveStars(k,n){if(n>(save.stars[k]||0))save.stars[k]=n;persist();logEvent('finish',k,save.lv[k],n)}
+function totalStars(){var t=0;GAMES.forEach(function(k){t+=save.stars[k]||0});return t}
+function rank(n){var m=GAMES.length*3;return n>=m*0.8?'Fan cứng gà rán':n>=m*0.55?'Sành gà':n>=m*0.3?'Tập sự':'Khách mới'}
+function starStr(n){return '★'.repeat(n)+'☆'.repeat(3-n)}
+var app=document.getElementById('app');
+var cleanup=function(){};
+var TM=[];
+function later(fn,ms){var id=setTimeout(fn,ms);TM.push(id);return id}
+function every(fn,ms){var id=setInterval(fn,ms);TM.push(id);return id}
+function stopAll(){TM.forEach(function(id){clearTimeout(id);clearInterval(id)});TM=[]}
+function $(id){return document.getElementById(id)}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function shuffle(a){a=a.slice();for(var j=a.length-1;j>0;j--){var k=Math.floor(Math.random()*(j+1));var t=a[j];a[j]=a[k];a[k]=t}return a}
+function money(n){return String(n).replace(/\B(?=(\d{3})+(?!\d))/g,'.')+'đ'}
+function nav(fn){stopAll();cleanup();cleanup=function(){};window.scrollTo(0,0);fn()}
+function shell(title,inner){return '<button class="back" id="back">← Về góc giải trí</button><h2>'+esc(title)+'</h2>'+inner}
+function bindBack(){var b=$('back');if(b)b.addEventListener('click',function(){nav(home)})}
+function each(sel,fn){Array.prototype.forEach.call(app.querySelectorAll(sel),fn)}
+var LVN=['Dễ','Vừa','Khó'];
+
+function levelScreen(key,title,intro,descs,start){
+  var lv=save.lv[key]!=null?save.lv[key]:1;
+  var h='<p class="sub">'+esc(intro)+'</p><div class="seg" role="group" aria-label="Chọn độ khó"><button data-l="0">Dễ</button><button data-l="1">Vừa</button><button data-l="2">Khó</button></div><p class="small" id="ld" style="min-height:44px"></p><button class="btn pri" id="ls">Bắt đầu</button>';
+  app.innerHTML=shell(title,h);bindBack();
+  function sel(){
+    each('.seg button',function(b,i){b.setAttribute('aria-pressed',i===lv?'true':'false')});
+    $('ld').textContent=descs[lv];
+  }
+  each('.seg button',function(b,i){b.addEventListener('click',function(){lv=i;sel()})});
+  $('ls').addEventListener('click',function(){save.lv[key]=lv;curGame=key;persist();logEvent('start',key,lv);start(lv)});
+  sel();
+}
+function endScreen(title,resultHtml,l,again,lvlFn){
+  app.innerHTML=shell(title,resultHtml+'<button class="btn pri" id="ag">Chơi lại độ '+LVN[l]+'</button><div style="height:8px"></div><button class="btn" id="lv2">Đổi độ khó</button><div style="height:8px"></div><button class="btn" id="hm">Về góc giải trí</button>');
+  bindBack();
+  $('ag').addEventListener('click',function(){logEvent('start',curGame,l);again(l)});
+  $('lv2').addEventListener('click',function(){nav(lvlFn)});
+  $('hm').addEventListener('click',function(){nav(home)});
+}
+function resultCard(small,big,n,line){
+  return '<div class="result"><div class="small">'+esc(small)+'</div><div class="big">'+esc(big)+'</div>'+(line?'<p style="font-weight:600">'+esc(line)+'</p>':'')+'<div class="stars" style="font-size:24px">'+starStr(n)+'</div></div>';
+}
+
+
+function cleanNick(v){return String(v||'').replace(/[\u0000-\u001f<>"'`\\=+@]/g,'').replace(/\s+/g,' ').trim().slice(0,20)}
+function askNick(change){
+  var h='<span class="tag">'+esc(BRAND)+'</span><h1>Góc giải trí</h1><p class="sub">'+(change?'Bạn muốn đổi biệt danh thành gì nè?':'Bạn tên gì nè? Nhập một biệt danh để vào chơi nhé!')+'</p>'+
+  '<div class="card"><label for="nk" style="font-weight:700;display:block;margin-bottom:6px">Biệt danh của bạn</label><input id="nk" type="text" maxlength="20" autocomplete="off" placeholder="Ví dụ: Gà Con" value="'+esc(change?save.nick||'':'')+'" style="width:100%;min-height:48px;font-size:18px;padding:8px 12px;border:2px solid #ead9c6;border-radius:12px;box-sizing:border-box"><div id="nke" class="small" style="color:#B54316;min-height:20px;margin-top:6px" role="alert"></div></div>'+
+  '<button class="btn pri" id="nkb">'+(change?'Lưu biệt danh':'Vào chơi')+'</button>'+
+  '<p class="small" style="margin-top:10px">Quán chỉ lưu biệt danh và số lượt chơi để thống kê. Bạn không cần nhập số điện thoại hay thông tin cá nhân.</p>'+(change?'<button class="back" id="nkc">← Quay lại</button>':'');
+  app.innerHTML=h;
+  function go(){
+    var v=cleanNick($('nk').value);
+    if(v.length<2){$('nke').textContent='Biệt danh cần từ 2 ký tự trở lên nhé.';return}
+    var first=!save.nick;
+    save.nick=v;if(!save.did)save.did='d'+Math.random().toString(36).slice(2,10)+Date.now().toString(36);
+    persist();if(first||change)logEvent('open');
+    nav(home);
+  }
+  $('nkb').addEventListener('click',go);
+  $('nk').addEventListener('keydown',function(e){if(e.key==='Enter')go()});
+  if(change)$('nkc').addEventListener('click',function(){nav(home)});
+}
+function home(){
+  if(!save.nick){askNick(false);return}
+  var t=totalStars(),M=GAMES.length*3;
+  var games=[
+    {k:'fry',n:'Ca chiên',d:'Vớt gà đúng lúc vàng giòn. Kỹ năng và canh nhịp.',m:'3 đến 5 phút',f:fry},
+    {k:'quiz',n:'Bạn là hệ gà nào?',d:'Trắc nghiệm tính cách, nhận thẻ kết quả để khoe bạn bè.',m:'1 đến 3 phút',f:quiz},
+    {k:'mem',n:'Lật thẻ ghép đôi',d:'Trí nhớ: tìm các cặp món giống nhau.',m:'2 đến 3 phút',f:mem},
+    {k:'cash',n:'Thu ngân tập sự',d:'Tính hóa đơn, trả tiền thừa và chọn đúng cách thanh toán.',m:'2 đến 3 phút',f:cash},
+    {k:'srv',n:'Ra món cho khách',d:'Xếp đúng món theo order rồi ra món. Chậm là bị giục, bị quản lý nhắc.',m:'3 đến 5 phút',f:srv},
+    {k:'wait',n:'Chạy bàn',d:'Mang đúng món ra từng bàn trước khi khách mất kiên nhẫn.',m:'2 đến 4 phút',f:wait},
+    {k:'whack',n:'Gà ló đầu',d:'Phản xạ: chạm gà, tránh bẫy.',m:'1 phút',f:whack}
+  ];
+  var gr='<div class="row small" style="margin:0 0 8px"><span>Xin chào, <b>'+esc(save.nick)+'</b></span><button class="back" id="chn" style="padding:4px 0">Đổi biệt danh</button></div>';
+  var h=gr+'<span class="tag">'+esc(BRAND)+'</span><h1>Góc giải trí</h1><p class="sub">Món sắp lên rồi, chơi một ván cho vui nhé! Game nào cũng có 3 độ khó, món tới là dừng liền.</p>';
+  h+='<div class="card pass"><div class="row"><b>Hộ chiếu gà</b><span class="stars">'+t+'/'+M+' ★</span></div><div class="bar"><i style="width:'+Math.round(t/M*100)+'%"></i></div><div class="small">Danh hiệu: <b>'+rank(t)+'</b>'+(save.hero?' · Hệ của bạn: '+esc(save.hero):'')+'</div></div>';
+  games.forEach(function(g){
+    var s=save.stars[g.k]||0;
+    h+='<button class="card gcard" data-g="'+g.k+'"><p class="t">'+g.n+'</p><p class="d">'+g.d+'</p><div class="row"><span class="m">'+g.m+'</span><span class="stars">'+starStr(s)+'</span></div></button>';
+  });
+  h+='<p class="small">Sao cao nhất của mỗi game được lưu trên chính điện thoại của bạn.</p>';
+  app.innerHTML=h;
+  var chn=$('chn');if(chn)chn.addEventListener('click',function(){askNick(true)});
+  each('[data-g]',function(b){
+    var g=games.filter(function(x){return x.k===b.getAttribute('data-g')})[0];
+    b.addEventListener('click',function(){nav(g.f)});
+  });
+}
+
+var FSTOPS=[[0,[242,214,196]],[0.4,[236,190,110]],[0.56,[224,160,50]],[0.62,[217,142,31]],[0.68,[196,115,28]],[0.82,[150,80,26]],[1,[59,36,18]]];
+function col(x){
+  for(var i=1;i<FSTOPS.length;i++){
+    if(x<=FSTOPS[i][0]){
+      var a=FSTOPS[i-1],b=FSTOPS[i],k=(x-a[0])/(b[0]-a[0]);
+      var c=a[1].map(function(v,j){return Math.round(v+(b[1][j]-v)*k)});
+      return 'rgb('+c[0]+','+c[1]+','+c[2]+')';
+    }
+  }
+  return 'rgb(59,36,18)';
+}
+function chick(p,w){
+  return '<svg viewBox="-64 -36 108 72" width="'+w+'" aria-hidden="true"><g transform="rotate(-16)"><rect x="-56" y="-4" width="24" height="9" rx="4.5" fill="#F5EFE6" stroke="#D8CDBB"/><circle cx="-56" cy="-2" r="5" fill="#F5EFE6" stroke="#D8CDBB"/><circle cx="-56" cy="5" r="5" fill="#F5EFE6" stroke="#D8CDBB"/><ellipse cx="0" cy="0" rx="34" ry="23" fill="'+col(p)+'"/><circle cx="-8" cy="-8" r="4" fill="#fff" fill-opacity=".22"/><circle cx="12" cy="-6" r="4" fill="#fff" fill-opacity=".22"/><circle cx="6" cy="9" r="4" fill="#fff" fill-opacity=".22"/></g></svg>';
+}
+function face(kind,bg,size){
+  var ink='#2B1B10',eyes,mouth,extra='';
+  var names={love:'Khách rất hài lòng',ok:'Khách hài lòng',meh:'Khách hơi buồn',bad:'Khách không hài lòng'};
+  var dots='<circle cx="20" cy="27" r="2.8" fill="'+ink+'"/><circle cx="36" cy="27" r="2.8" fill="'+ink+'"/>';
+  var blush='<circle cx="12" cy="35" r="4" fill="#F4A3A3" opacity=".75"/><circle cx="44" cy="35" r="4" fill="#F4A3A3" opacity=".75"/>';
+  if(kind==='love'){
+    eyes='<path d="M15 26q4-7 9 0M32 26q4-7 9 0" stroke="'+ink+'" stroke-width="2.6" fill="none" stroke-linecap="round"/>';
+    mouth='<path d="M20 35q8 11 16 0z" fill="#C2410C" stroke="'+ink+'" stroke-width="1.6" stroke-linejoin="round"/>';
+  }else if(kind==='ok'){
+    eyes=dots;mouth='<path d="M21 36q7 5 14 0" stroke="'+ink+'" stroke-width="2.2" fill="none" stroke-linecap="round"/>';
+  }else if(kind==='meh'){
+    eyes=dots;mouth='<path d="M22 39h12" stroke="'+ink+'" stroke-width="2.2" stroke-linecap="round"/>';
+    extra='<path d="M47 13q4 6 0 9q-4-3 0-9z" fill="#8EC5E8" stroke="#4A90B8" stroke-width="1"/>';
+  }else{
+    eyes='<circle cx="20" cy="29" r="2.8" fill="'+ink+'"/><circle cx="36" cy="29" r="2.8" fill="'+ink+'"/><path d="M13 19l11 4M43 19l-11 4" stroke="'+ink+'" stroke-width="2.4" stroke-linecap="round"/>';
+    mouth='<path d="M21 42q7-7 14 0" stroke="'+ink+'" stroke-width="2.2" fill="none" stroke-linecap="round"/>';
+  }
+  return '<svg viewBox="0 0 56 56" width="'+size+'" height="'+size+'" role="img" aria-label="'+names[kind]+'"><circle cx="28" cy="28" r="26" fill="'+bg+'" stroke="'+ink+'" stroke-width="1.6"/>'+blush+eyes+mouth+extra+'</svg>';
+}
+function mface(kind,bg,size){
+  return '<span style="display:inline-flex;flex-direction:column;align-items:center;flex:none">'+face(kind,bg,size)+'<svg width="22" height="12" viewBox="0 0 22 12" aria-hidden="true" style="margin-top:-3px"><path d="M11 6L2 1v10zM11 6l9-5v10z" fill="#2B4C7E"/><circle cx="11" cy="6" r="2.2" fill="#1B3358"/></svg></span>';
+}
+function fryGuide(next){
+  var stages=[
+    ['Sống',0.05,'Màu nhợt nhạt, thịt chưa chín. Vớt lúc này sẽ bị chê sống.'],
+    ['Non',0.42,'Vàng nhạt, vỏ chưa giòn. Gần được rồi, đợi thêm chút nữa.'],
+    ['Vàng giòn',0.62,'Vàng óng đều màu, vỏ giòn rụm, thịt mọng. Đây là lúc cần vớt!'],
+    ['Sém',0.82,'Nâu đậm, vỏ cứng và bắt đầu đắng. Vớt trễ sẽ bị trừ điểm.'],
+    ['Cháy',1,'Đen sẫm, mất vị. Miếng bị cháy sẽ mất 1 mạng.']
+  ];
+  function stageOf(p){return p<0.25?0:p<0.52?1:p<=0.70?2:p<0.92?3:4}
+  var h='<p class="sub">Trước khi vào ca chiên, hãy xem thế nào là miếng gà vàng giòn đúng độ. Kéo thanh trượt để xem gà đổi màu.</p>'+
+  '<div class="card" style="text-align:center"><div id="gc"></div><div id="gl" style="font-size:20px;font-weight:800;margin:4px 0"></div><p id="gd" class="sub" style="min-height:44px"></p>'+
+  '<input id="gr" type="range" min="0" max="100" value="62" step="1" style="width:100%;accent-color:#D9541E" aria-label="Độ chín của miếng gà"><div class="small" style="display:flex;justify-content:space-between"><span>Sống</span><span>Vàng giòn</span><span>Cháy</span></div></div>'+
+  '<div class="grid2" style="margin-bottom:12px">';
+  stages.forEach(function(s,i){h+='<button class="btn" data-s="'+i+'" style="min-height:42px;font-size:14px;padding:6px">'+s[0]+'</button>'});
+  h+='</div><div class="card"><b>Mẹo để đạt điểm cao</b><div class="sub" style="margin-top:6px;line-height:1.6">• Canh theo màu của từng miếng, mỗi miếng chín với nhịp riêng.<br>• Vớt đúng vàng giòn liên tiếp để nhân điểm combo.<br>• Độ Dễ có bảng màu gợi ý, độ Khó chỉ dựa vào mắt của bạn.</div></div>'+
+  '<p class="small">Game chỉ minh họa màu của lớp vỏ. Ngoài đời, gà phải chín kỹ bên trong mới an toàn khi ăn.</p><button class="btn pri" id="gs">Đã hiểu, vào chơi</button>';
+  app.innerHTML=shell('Hướng dẫn độ vàng giòn',h);bindBack();
+  var r=$('gr');
+  function paint(){
+    var p=Number(r.value)/100,i=stageOf(p);
+    $('gc').innerHTML=chick(p,170);
+    $('gl').textContent=stages[i][0]+(i===2?' · mục tiêu':'');
+    $('gl').style.color=i===2?'#2E7D32':(i===0||i===1?'#B7791F':'#C62828');
+    $('gd').textContent=stages[i][2];
+  }
+  r.addEventListener('input',paint);
+  each('[data-s]',function(b){b.addEventListener('click',function(){r.value=Math.round(stages[Number(b.getAttribute('data-s'))][1]*100);paint()})});
+  $('gs').addEventListener('click',next);
+  paint();
+}
+function fry(){fryGuide(fryPlay)}
+function fryPlay(){
+  var LV=[
+    {name:'Dễ',K:[1,1,1,2,2,2,2,2,2,2,2,2],lives:4,tol:0.07,base:4200,step:80,min:2800,lo:0.95,rg:0.10,stag:400,ref:2,mult:1,desc:'4 mạng, tối đa 2 miếng cùng lúc, luôn có bảng màu gợi ý, 12 đơn.'},
+    {name:'Vừa',K:[1,1,2,2,2,3,3,3,3,3,3,3,3,3,3],lives:3,tol:0.05,base:3600,step:100,min:2000,lo:0.9,rg:0.25,stag:800,ref:1,mult:1.5,desc:'3 mạng, tối đa 3 miếng cùng lúc, 5 đơn đầu có bảng màu, 15 đơn. Điểm nhân 1,5.'},
+    {name:'Khó',K:[2,2,2,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3],lives:2,tol:0.035,base:3000,step:110,min:1500,lo:0.8,rg:0.5,stag:1200,ref:0,mult:2,desc:'2 mạng, 3 miếng chiên với tốc độ khác nhau, không có bảng màu, 18 đơn. Điểm nhân 2.'}
+  ];
+  var names=['Linh','Minh','Huy','An','Trang','Khoa','Vy','Nam','Lan','Bảo','Hà','Tuấn','My','Phúc','Thảo','Đạt','Ngọc','Sơn'];
+  var CX=[60,170,280],ZONE=0.62;
+  var st='idle',lv=save.lv.fry!=null?save.lv.fry:1,o=0,total=0,lives=3,combo=0,maxCombo=0,pieces=[],raf=0;
+  cleanup=function(){cancelAnimationFrame(raf);st='x'};
+  var body='<div class="row" style="color:var(--muted);font-size:14px"><span>Đơn <b id="f-o" style="color:var(--ink)">1</b>/<span id="f-n">15</span></span><span id="f-lives"></span><span>Điểm <b id="f-s" style="color:var(--ink)">0</b></span></div>'+
+  '<p class="sub" id="f-order" style="min-height:22px;margin:4px 0">Chọn độ khó rồi bắt đầu ca chiên.</p>'+
+  '<svg id="f-svg" viewBox="0 0 340 160" width="100%" role="img" aria-label="Các chảo chiên gà"></svg>'+
+  '<div id="f-fb" style="display:none"></div>'+
+  '<div class="ref" id="f-ref" style="display:none"><span><i style="background:#F2D6C4"></i>Sống</span><span><i style="background:#D98E1F"></i>Vàng giòn</span><span><i style="background:#3B2412"></i>Cháy</span></div>'+
+  '<div class="grid2" id="f-take" style="display:none"><button class="btn pri" id="f-b0" aria-label="Vớt miếng bên trái">Vớt</button><button class="btn pri" id="f-b1" aria-label="Vớt miếng ở giữa">Vớt</button><button class="btn pri" id="f-b2" aria-label="Vớt miếng bên phải">Vớt</button></div>'+
+  '<div id="f-diffbox"><div class="seg" role="group" aria-label="Chọn độ khó"><button id="f-d0" aria-pressed="false">Dễ</button><button id="f-d1" aria-pressed="true">Vừa</button><button id="f-d2" aria-pressed="false">Khó</button></div><p class="small" id="f-desc" style="min-height:40px"></p><button class="btn" id="f-guide" style="margin-bottom:8px">Xem hướng dẫn độ vàng giòn</button></div>'+
+  '<p class="msg" id="f-msg" role="status" aria-live="polite">Bấm Vớt đúng lúc miếng gà vàng giòn. Cháy sẽ mất 1 mạng.</p>'+
+  '<button class="btn pri" id="f-go">Bắt đầu ca chiên</button>';
+  app.innerHTML=shell('Ca chiên',body);
+  bindBack();
+  var svg=$('f-svg'),msg=$('f-msg'),go=$('f-go'),oEl=$('f-o'),nEl=$('f-n'),sEl=$('f-s'),lEl=$('f-lives'),ordEl=$('f-order'),refEl=$('f-ref'),takeEl=$('f-take'),diffBox=$('f-diffbox'),descEl=$('f-desc'),fbEl=$('f-fb');
+  var btn=[0,1,2].map(function(i){return $('f-b'+i)});
+  var dbt=[0,1,2].map(function(i){return $('f-d'+i)});
+  svg.innerHTML=[0,1,2].map(function(i){
+    return '<g id="f-s'+i+'" transform="translate('+CX[i]+',0)"><ellipse cx="0" cy="132" rx="52" ry="17" fill="#EFE3D3" stroke="#D9C7B0"/><ellipse cx="0" cy="129" rx="42" ry="11" fill="#F2D58A" fill-opacity="0.6"/><g id="f-m'+i+'" transform="translate(0,92) rotate(-16)"><rect x="-56" y="-4" width="24" height="9" rx="4.5" fill="#F5EFE6" stroke="#D8CDBB"/><circle cx="-56" cy="-2" r="5" fill="#F5EFE6" stroke="#D8CDBB"/><circle cx="-56" cy="5" r="5" fill="#F5EFE6" stroke="#D8CDBB"/><ellipse id="f-c'+i+'" cx="0" cy="0" rx="34" ry="23" fill="#F2D6C4"/><circle cx="-8" cy="-8" r="4" fill="#fff" fill-opacity="0.22"/><circle cx="12" cy="-6" r="4" fill="#fff" fill-opacity="0.22"/><circle cx="6" cy="9" r="4" fill="#fff" fill-opacity="0.22"/></g><text id="f-l'+i+'" x="0" y="26" text-anchor="middle" font-size="12" font-weight="700" fill="#7A6455"></text><text id="f-t'+i+'" x="0" y="44" text-anchor="middle" font-size="14" font-weight="700" fill="#2B1B10"></text></g>';
+  }).join('');
+  function slotsFor(k){return k===1?[1]:k===2?[0,2]:[0,1,2]}
+  function N(){return LV[lv].K.length}
+  function hud(){
+    oEl.textContent=Math.min(o+1,N());nEl.textContent=N();sEl.textContent=Math.round(total);
+    var h='';
+    for(var i=0;i<LV[lv].lives;i++)h+='<span aria-hidden="true" style="margin-left:3px;font-size:18px;color:'+(i<lives?'#D9341E':'#C9B8A6')+'">♥</span>';
+    if(combo>=2)h+='<span style="margin-left:10px;font-size:13px;color:var(--brand-d);font-weight:700">Combo x'+combo+'</span>';
+    lEl.innerHTML=h;
+  }
+  function setLevel(i){
+    lv=i;save.lv.fry=i;persist();
+    dbt.forEach(function(b,j){b.setAttribute('aria-pressed',j===i?'true':'false')});
+    descEl.textContent=LV[i].desc;
+    lives=LV[i].lives;hud();
+  }
+  function prepare(slots){
+    [0,1,2].forEach(function(i){
+      var on=slots.indexOf(i)>=0;
+      $('f-s'+i).style.display=on?'block':'none';
+      $('f-c'+i).setAttribute('fill',col(0));
+      $('f-m'+i).setAttribute('opacity','1');
+      $('f-t'+i).textContent='';$('f-l'+i).textContent='';
+      btn[i].style.visibility=on?'visible':'hidden';
+    });
+  }
+  function startOrder(){
+    st='cook';
+    var L=LV[lv],k=L.K[o],slots=slotsFor(k),now=performance.now();
+    prepare(slots);
+    var base=Math.max(L.min,L.base-o*L.step);
+    pieces=slots.map(function(s){return {slot:s,dur:base*(L.lo+Math.random()*L.rg),start:now+(k>1?Math.random()*L.stag:0),state:'cook',p:0,score:0}});
+    ordEl.textContent='Đơn của '+names[o]+': '+k+' miếng ('+L.name+')';
+    refEl.style.display=(L.ref===2||(L.ref===1&&o<5))?'flex':'none';
+    takeEl.style.display='grid';diffBox.style.display='none';go.style.display='none';fbEl.style.display='none';
+    msg.textContent=o===0?'Bấm Vớt khi miếng gà vừa vàng giòn.':'Canh màu từng miếng, vớt đúng lúc.';
+    hud();
+    raf=requestAnimationFrame(frame);
+  }
+  function burn(pc){
+    pc.state='burnt';pc.p=1;pc.score=0;
+    $('f-c'+pc.slot).setAttribute('fill',col(1));
+    var t=$('f-t'+pc.slot);t.textContent='-1 mạng';t.setAttribute('fill','#C62828');setLabel(pc.slot,'Cháy!','#C62828');pc.kind='burnt';
+    lives=Math.max(0,lives-1);combo=0;hud();
+  }
+  function frame(now){
+    if(st!=='cook')return;
+    var live=false;
+    pieces.forEach(function(pc){
+      if(pc.state!=='cook')return;
+      pc.p=Math.max(0,(now-pc.start)/pc.dur);
+      if(pc.p>=1){burn(pc)}else{$('f-c'+pc.slot).setAttribute('fill',col(pc.p));live=true}
+    });
+    if(live&&lives>0){raf=requestAnimationFrame(frame)}else{endOrder()}
+  }
+  function take(slot){
+    if(st!=='cook')return;
+    var pc=null;
+    pieces.forEach(function(x){if(x.slot===slot&&x.state==='cook')pc=x});
+    if(!pc)return;
+    var L=LV[lv],d=Math.abs(pc.p-ZONE),s=d<=L.tol?100:Math.max(0,Math.round(100-(d-L.tol)*320));
+    var pts=Math.round(s*(1+0.25*Math.min(combo,4))*L.mult);
+    total+=pts;combo=s>=90?combo+1:0;if(combo>maxCombo)maxCombo=combo;
+    pc.state='done';pc.score=s;
+    var t=$('f-t'+slot);t.textContent='+'+pts;t.setAttribute('fill','#2B1B10');
+    var kind=s>=90?'perfect':(pc.p<ZONE?(s>=65?'young':'raw'):(s>=65?'over':'dark'));
+    pc.kind=kind;setLabel(slot,LAB[kind][0],LAB[kind][1]);
+    $('f-m'+slot).setAttribute('opacity','0.4');
+    hud();
+    if(!pieces.some(function(x){return x.state==='cook'})){cancelAnimationFrame(raf);endOrder()}
+  }
+  var LAB={perfect:['Giòn rụm!','#2E7D32'],young:['Hơi non','#B7791F'],raw:['Còn sống','#B7791F'],over:['Hơi sém','#B7791F'],dark:['Sém rồi','#C62828']};
+  function setLabel(slot,txt,color){var e=$('f-l'+slot);e.textContent=txt;e.setAttribute('fill',color)}
+  var QUOTES={
+    love:['Giòn rụm, đúng ý mình luôn!','Vỏ vàng óng, ăn ngon quá!','Chuẩn vị rồi, cho 5 sao nhé!'],
+    ok:['Cũng ngon đó, còn chút chưa đều.','Khá ổn, lần sau giòn hơn nữa nhé.','Tạm ổn, mình ăn được.'],
+    meh:{y:['Hơi non rồi, vỏ chưa giòn.','Tiếc quá, gà chưa chín tới.'],o:['Hơi sém rồi, vị hơi đắng.','Tiếc quá, vớt trễ một chút.']},
+    bad:{y:['Còn sống thế này sao ăn được?','Gà chưa chín, mình buồn quá...'],o:['Cháy hết rồi, buồn quá...','Sém đen thế này mình không ăn được.']}
+  };
+  function showFeedback(){
+    var n=pieces.length,sum=0,cnt={perfect:0,young:0,raw:0,over:0,dark:0,burnt:0};
+    pieces.forEach(function(pc){sum+=pc.score||0;cnt[pc.kind||'burnt']++});
+    var avg=sum/n,tier=avg>=85?'love':avg>=60?'ok':avg>=30?'meh':'bad';
+    var youngN=cnt.young+cnt.raw,oldN=cnt.over+cnt.dark+cnt.burnt;
+    var pool=(tier==='love'||tier==='ok')?QUOTES[tier]:QUOTES[tier][youngN>oldN?'y':'o'];
+    var q=pool[Math.floor(Math.random()*pool.length)];
+    var det=[];
+    [['perfect','vàng giòn'],['young','hơi non'],['raw','còn sống'],['over','hơi sém'],['dark','sém'],['burnt','cháy']].forEach(function(x){if(cnt[x[0]])det.push(cnt[x[0]]+' miếng '+x[1])});
+    var stars=tier==='love'?5:tier==='ok'?(avg>=75?4:3):tier==='meh'?2:1;
+    var bg=['#FFD9B3','#FFE7A8','#F9D1D1','#CFE8F3','#D9EBC9'][o%5];
+    fbEl.innerHTML='<div class="fb"><div style="flex:none">'+face(tier,bg,60)+'</div><div style="flex:1;min-width:0"><div class="row"><b>'+esc(names[o])+'</b><span class="stars" style="font-size:14px">'+'★'.repeat(stars)+'☆'.repeat(5-stars)+'</span></div><div class="bubble">“'+q+'”</div><div class="small">'+det.join(' · ')+'</div></div></div>';
+    fbEl.style.display='block';
+  }
+  function showFinal(){
+    var r=ratio(),tier=r>=1?'love':r>=0.65?'ok':r>=0.3?'meh':'bad';
+    var q=tier==='love'?'Quán chiên gà ngon nhất mình từng ăn!':tier==='ok'?'Ngon đó, lần sau mình sẽ quay lại.':tier==='meh'?'Cũng được, mong bếp ổn định hơn.':'Mình muốn thử lại một ca chiên khác.';
+    fbEl.innerHTML='<div class="fb"><div style="flex:none">'+face(tier,'#FFE7A8',60)+'</div><div style="flex:1;min-width:0"><b>Khách nhận xét cả ca</b><div class="bubble">“'+q+'”</div><div class="small">Danh hiệu: '+titleFor()+'</div></div></div>';
+    fbEl.style.display='block';
+  }
+  function ratio(){var L=LV[lv],n=0;L.K.forEach(function(k){n+=k});return total/(n*100*L.mult)}
+  function titleFor(){var r=ratio();return r>=1.4?'Thánh chiên gà':r>=1?'Bếp trưởng':r>=0.65?'Đầu bếp giỏi':r>=0.3?'Học việc chăm chỉ':'Cần luyện thêm'}
+  function awardAndShow(prefix){
+    var done=o+(lives>0?1:0),need=Math.ceil(N()/2),r=ratio(),n=0;
+    if(done>=need){n=r>=1?3:r>=0.5?2:1;giveStars('fry',n)}
+    msg.textContent=prefix+Math.round(total)+' điểm, combo cao nhất x'+maxCombo+'. Danh hiệu: '+titleFor()+'.'+(n?' Bạn nhận '+n+' sao.':' Hoàn thành ít nhất nửa ca để nhận sao.');
+    go.textContent='Chơi lại';go.style.display='block';diffBox.style.display='block';takeEl.style.display='none';
+    showFinal();
+    st='over';
+  }
+  function endOrder(){
+    cancelAnimationFrame(raf);
+    pieces.forEach(function(pc){if(pc.state==='cook'){pc.state='burnt';pc.score=0;pc.kind='burnt'}});
+    takeEl.style.display='none';go.style.display='block';
+    showFeedback();
+    if(lives<=0){awardAndShow('Hết mạng rồi! Xong '+o+'/'+N()+' đơn, ');return}
+    st='between';
+    msg.textContent='';
+    go.textContent=o>=N()-1?'Xem kết quả':'Đơn tiếp theo';
+  }
+  function reset(){o=0;total=0;combo=0;maxCombo=0;lives=LV[lv].lives;logEvent('start','fry',lv);startOrder()}
+  btn.forEach(function(b,i){b.addEventListener('click',function(){take(i)})});
+  dbt.forEach(function(b,i){b.addEventListener('click',function(){if(st==='idle'||st==='over')setLevel(i)})});
+  go.addEventListener('click',function(){
+    if(st==='idle'||st==='over'){reset()}
+    else if(st==='between'){if(o>=N()-1){awardAndShow('Xong ca chiên độ '+LV[lv].name+'! ')}else{o++;startOrder()}}
+  });
+  $('f-guide').addEventListener('click',function(){nav(fry)});
+  prepare([1]);setLevel(lv);
+}
+
+var H=[
+  {n:'Cay bùng nổ',s:'Mọi bữa tiệc cần một người châm lửa, và đó là bạn.',t:'Dám thử, thích thử thách, hay là người khởi xướng kèo vui.',m:'Hợp với vị cay đậm và những bữa ăn đông vui.'},
+  {n:'Phô mai kéo sợi',s:'Càng kéo càng dính, ai cũng muốn ở cạnh bạn.',t:'Ấm áp, thích chill, luôn làm không khí dễ chịu.',m:'Hợp với vị béo ngậy, tan chảy.'},
+  {n:'Giòn rụm truyền thống',s:'Cổ điển nhưng không bao giờ lỗi mốt.',t:'Đáng tin, chốt kèo nhanh, không cầu kỳ.',m:'Hợp với vị gà giòn nguyên bản.'},
+  {n:'Mật ong ngọt ngào',s:'Ngọt vừa đủ, ai gặp bạn cũng thấy dễ chịu.',t:'Dịu dàng, hay an ủi bạn bè, lãng mạn.',m:'Hợp với vị ngọt thơm dịu nhẹ.'}
+];
+var Q=[
+  ['Cuối tuần bạn hợp nhất với',['Thử một chỗ mới thật liều',0],['Nằm nhà xem phim',1],['Cà phê với hội bạn',2],['Đi dạo với người thương',3]],
+  ['Trong nhóm chat bạn là người',['Rủ rê mở kèo vui',0],['Thả meme và cảm xúc',1],['Chốt giờ chốt chỗ',2],['An ủi mọi người',3]],
+  ['Bài nhạc bạn bật lúc này',['Rock hoặc EDM',0],['Lo-fi',1],['Nhạc pop đang hot',2],['Ballad hoặc R&B',3]],
+  ['Mức cay bạn chịu được',['Càng cay càng đã',0],['Không cay nhưng phải béo',1],['Vừa vừa thôi',2],['Ngọt dịu thôi',3]],
+  ['Một từ nói về bạn',['Bùng nổ',0],['Ấm áp',1],['Đáng tin',2],['Dễ thương',3]],
+  ['Điểm hẹn lý tưởng',['Sân khấu nhạc sống',0],['Góc quán yên tĩnh',1],['Quán quen đông bạn',2],['Công viên lúc hoàng hôn',3]],
+  ['Khi gặp chuyện bực bạn sẽ',['Xả bằng thể thao hoặc hét thật to',0],['Cuộn chăn nghe nhạc',1],['Tìm bạn nói chuyện',2],['Viết nhật ký hoặc đi dạo',3]],
+  ['Bữa ăn hoàn hảo cần',['Vị đậm, bùng nổ',0],['Béo ngậy, tan chảy',1],['Giòn rụm đúng chuẩn',2],['Ngọt thơm dịu nhẹ',3]],
+  ['Khi đi chơi nhóm bạn thường',['Dẫn cả nhóm vào chỗ lạ',0],['Ngồi cạnh người mới để bắt chuyện',1],['Giữ vé và giờ giấc cho cả nhóm',2],['Nhớ sở thích từng người',3]],
+  ['Bạn muốn bạn bè nhớ mình là',['Người luôn tạo bất ngờ',0],['Người dễ gần nhất nhóm',1],['Người đáng tin nhất',2],['Người tinh tế nhất',3]],
+  ['Màu nào giống bạn nhất',['Đỏ rực',0],['Vàng kem',1],['Nâu vàng giòn',2],['Cam mật ong',3]],
+  ['Một ngày đẹp trời bắt đầu bằng',['Chạy bộ hoặc tập thể thao',0],['Ngủ nướng thêm chút',1],['Cà phê và kế hoạch trong ngày',2],['Nhìn nắng sớm và nghe nhạc nhẹ',3]]
+];
+function quiz(){
+  levelScreen('quiz','Bạn là hệ gà nào?','Trả lời theo cảm nhận đầu tiên của bạn.',['5 câu, nhanh gọn.','8 câu.','12 câu, kết quả chính xác hơn.'],run);
+  function run(l){
+    var n=[5,8,12][l],qs=shuffle(Q).slice(0,n),i=0,score=[0,0,0,0],last=0;
+    function ask(){
+      var q=qs[i],opts=shuffle(q.slice(1));
+      var h='<div class="small">Câu '+(i+1)+'/'+n+'</div><div class="bar"><i style="width:'+Math.round(i/n*100)+'%"></i></div><p style="font-size:19px;font-weight:700;margin:12px 0">'+esc(q[0])+'?</p>';
+      opts.forEach(function(o){h+='<button class="opt" data-h="'+o[1]+'">'+esc(o[0])+'</button>'});
+      app.innerHTML=shell('Bạn là hệ gà nào?',h);bindBack();
+      each('.opt',function(b){
+        b.addEventListener('click',function(){
+          var hh=Number(b.getAttribute('data-h'));score[hh]++;last=hh;i++;
+          if(i>=n){finish()}else{ask()}
+        });
+      });
+    }
+    function finish(){
+      var best=0;
+      for(var j=1;j<4;j++){if(score[j]>score[best])best=j}
+      if(score[last]===score[best])best=last;
+      var r=H[best];
+      save.hero=r.n;giveStars('quiz',l+1);
+      var h='<div class="result"><div class="small">'+esc(BRAND)+' · Bạn là</div><div class="big">Hệ '+esc(r.n)+'</div><p style="font-weight:600">'+esc(r.s)+'</p><p class="sub">'+esc(r.t)+'</p><p class="sub">'+esc(r.m)+'</p></div><p class="small" style="text-align:center">Chụp màn hình thẻ này để khoe bạn bè. Rủ bạn cùng bàn làm thử xem hệ nào hợp nhau.</p>';
+      endScreen('Kết quả',h,l,run,quiz);
+    }
+    ask();
+  }
+}
+
+var S=[
+  ['Dầu chiên gà rán thường nóng khoảng 170 đến 180°C.',true,'Đủ nóng để vỏ giòn nhanh mà thịt bên trong vẫn mọng.'],
+  ['Nên rửa gà sống dưới vòi nước để sạch hết vi khuẩn trước khi nấu.',false,'Rửa gà có thể làm vi khuẩn bắn sang bề mặt khác. Nấu chín kỹ mới là cách diệt vi khuẩn.'],
+  ['Thịt gà được coi là chín an toàn khi nhiệt độ bên trong đạt khoảng 74°C.',true,'Đây là mức nhiệt khuyến cáo phổ biến cho thịt gia cầm.'],
+  ['Chất tạo cảm giác cay trong ớt là capsaicin.',true,'Chính capsaicin kích thích các thụ thể làm bạn thấy nóng và cay.'],
+  ['Uống nước lạnh luôn dập cay tốt hơn uống sữa.',false,'Capsaicin tan trong chất béo nên sữa thường làm dịu cay tốt hơn nước lọc.'],
+  ['Cho gà rán vừa chiên xong vào hộp đậy kín giúp vỏ giòn lâu hơn.',false,'Hơi nước bị giữ lại sẽ làm lớp vỏ nhanh bị ỉu.'],
+  ['Để gà ráo trên giá lưới giúp vỏ ít bị ỉu hơn đặt trên khăn giấy.',true,'Không khí lưu thông quanh miếng gà nên đáy miếng gà không bị đọng hơi.'],
+  ['Đùi gà thường cần chiên lâu hơn cánh gà vì miếng to hơn.',true,'Miếng càng dày thì nhiệt càng mất nhiều thời gian để vào đến bên trong.'],
+  ['Dầu đã chiên nhiều lần chỉ cần châm thêm, không cần thay.',false,'Dầu dùng quá nhiều lần bị biến chất, ảnh hưởng mùi vị và sức khỏe.'],
+  ['Ướp gà với sữa chua hoặc sữa lên men thường giúp thịt mềm hơn.',true,'Vị chua nhẹ giúp làm mềm thớ thịt, đây là mẹo ướp quen thuộc.'],
+  ['Thức ăn chín để ngoài trời nóng cả ngày vẫn an toàn nếu ăn ngay sau đó.',false,'Thức ăn để lâu ở nhiệt độ thường dễ làm vi khuẩn phát triển.'],
+  ['Tủ lạnh nên giữ ở khoảng dưới 5°C để bảo quản thức ăn tươi lâu hơn.',true,'Nhiệt độ thấp làm vi khuẩn phát triển chậm lại.']
+];
+function tf(){
+  levelScreen('tf','Đúng hay sai?','Chọn Đúng hoặc Sai cho từng nhận định.',['8 câu, không giới hạn thời gian.','10 câu, mỗi câu 15 giây.','12 câu, mỗi câu 8 giây.'],run);
+  function run(l){
+    var n=[8,10,12][l],lim=[0,15,8][l],qs=shuffle(S).slice(0,n),i=0,right=0,locked=false,left=0;
+    function show(){
+      var s=qs[i];locked=false;left=lim;
+      var h='<div class="row small"><span>Câu '+(i+1)+'/'+n+' · Đúng '+right+'</span><span id="tm">'+(lim?'Còn '+lim+' giây':'')+'</span></div><div class="bar"><i style="width:'+Math.round(i/n*100)+'%"></i></div><p style="font-size:19px;font-weight:700;margin:12px 0;min-height:90px">'+esc(s[0])+'</p><button class="opt" id="t1" style="text-align:center;font-weight:700">Đúng</button><button class="opt" id="t0" style="text-align:center;font-weight:700">Sai</button><div id="ex"></div>';
+      app.innerHTML=shell('Đúng hay sai?',h);bindBack();
+      $('t1').addEventListener('click',function(){pick(true)});
+      $('t0').addEventListener('click',function(){pick(false)});
+      stopAll();
+      if(lim){every(function(){
+        left--;var e=$('tm');if(e)e.textContent='Còn '+Math.max(left,0)+' giây';
+        if(left<=0){pick(null)}
+      },1000)}
+    }
+    function pick(v){
+      if(locked)return;locked=true;stopAll();
+      var s=qs[i],ok=(v===s[1]);
+      if(ok)right++;
+      $('t'+(s[1]?1:0)).className='opt ok';
+      if(v!==null&&!ok)$('t'+(v?1:0)).className='opt no';
+      $('ex').innerHTML='<p style="font-weight:700;color:'+(ok?'var(--good)':'var(--bad)')+'">'+(ok?'Chính xác!':(v===null?'Hết giờ.':'Chưa đúng.'))+'</p><p class="sub">'+esc(s[2])+'</p><button class="btn pri" id="nx">'+(i>=n-1?'Xem kết quả':'Câu tiếp')+'</button>';
+      $('nx').addEventListener('click',function(){i++;if(i>=n){finish()}else{show()}});
+    }
+    function finish(){
+      var r=right/n,st=r>=0.9?3:r>=0.6?2:1;giveStars('tf',st);
+      var t=r>=0.9?'Bạn rành gà rán thật sự':r>=0.6?'Hiểu biết khá ổn':'Còn nhiều điều để khám phá';
+      endScreen('Đúng hay sai?',resultCard('Độ '+LVN[l],right+'/'+n,st,t),l,run,tf);
+    }
+    show();
+  }
+}
+
+var PAIRS=[
+  [foodIcon('potato'),'#F4D35E'],[foodIcon('half'),'#E58C5A'],[foodIcon('cheeseChicken'),'#F7D56A'],
+  [foodIcon('whole'),'#C9A27A'],[foodIcon('set')+' '+foodIcon('tteok'),'#EE8C85'],
+  [foodIcon('noodleRose'),'#F6C1D6'],[foodIcon('noodleLava'),'#F7D56A'],
+  [foodIcon('cheeseBall'),'#F2B66B'],[foodIcon('salad'),'#A8D67A'],[foodIcon('coke'),'#9CC7E6']
+];
+function mem(){
+  levelScreen('mem','Lật thẻ ghép đôi','Lật hai thẻ giống nhau để ghép đôi, càng ít lần lật càng nhiều sao.',['2 lượt: 4 cặp rồi 6 cặp.','2 lượt: 6 cặp rồi 8 cặp.','2 lượt: 8 cặp rồi 10 cặp.'],run);
+  function run(l){
+    var plan=[[4,6],[6,8],[8,10]][l],round=0,moves=0,totalMoves=0,first=null,busy=false,matched=0,pairsN=0;
+    function start(){
+      pairsN=plan[round];moves=0;first=null;busy=false;matched=0;
+      var cards=[];
+      PAIRS.slice(0,pairsN).forEach(function(p,j){cards.push({id:j,p:p},{id:j,p:p})});
+      cards=shuffle(cards);
+      var cols=cards.length>=20?5:4;
+      var h='<div class="row small"><span>Lượt '+(round+1)+'/2</span><span>Số lần lật: <b id="mv">0</b></span></div><div class="mem" style="grid-template-columns:repeat('+cols+',minmax(0,1fr));--ic:'+(cols===5?'20px':'28px')+'">';
+      cards.forEach(function(c,j){h+='<button class="mc" data-i="'+j+'" aria-label="Thẻ úp">?</button>'});
+      h+='</div><p class="msg" role="status" aria-live="polite">Lật hai thẻ giống nhau để ghép đôi.</p>';
+      app.innerHTML=shell('Lật thẻ ghép đôi',h);bindBack();
+      each('.mc',function(b){
+        b.addEventListener('click',function(){
+          var j=Number(b.getAttribute('data-i')),c=cards[j];
+          if(busy||b.classList.contains('up')||b.classList.contains('done'))return;
+          flip(b,c);
+          if(first===null){first={b:b,c:c};return}
+          moves++;$('mv').textContent=moves;
+          if(first.c.id===c.id){
+            first.b.className='mc done';b.className='mc done';
+            first=null;matched++;
+            if(matched===pairsN)later(endRound,500);
+          }else{
+            busy=true;var f=first;first=null;
+            later(function(){unflip(f.b);unflip(b);busy=false},800);
+          }
+        });
+      });
+    }
+    function flip(b,c){b.className='mc up';b.style.setProperty('--face',c.p[1]);var ic=c.p[0].replace(/\s+(?=[^<]*$)/,''),plain=ic.replace(/<[^>]*>/g,'').trim(),one=ic.indexOf('<svg')<0&&Array.from(plain).length===1;b.innerHTML='<span class="pair-icon"'+(one?' style="font-size:calc(var(--ic,28px)*1.5)"':'')+'>'+ic+'</span>';b.setAttribute('aria-label','Thẻ món ăn')}
+    function unflip(b){b.className='mc';b.textContent='?';b.setAttribute('aria-label','Thẻ úp')}
+    function endRound(){
+      totalMoves+=moves;
+      if(round===0){
+        round=1;
+        app.innerHTML=shell('Lật thẻ ghép đôi','<div class="result"><div class="small">Hết lượt 1</div><div class="big">'+moves+' lần lật</div><p class="sub">Lượt 2 có nhiều thẻ hơn.</p></div><button class="btn pri" id="nx">Sang lượt 2</button>');
+        bindBack();$('nx').addEventListener('click',start);
+      }else{
+        var ratio=totalMoves/(plan[0]+plan[1]),n=ratio<=2.4?3:ratio<=3.4?2:1;giveStars('mem',n);
+        endScreen('Lật thẻ ghép đôi',resultCard('Xong cả 2 lượt · độ '+LVN[l],totalMoves+' lần lật',n,'Càng ít lần lật càng nhiều sao.'),l,run,mem);
+      }
+    }
+    start();
+  }
+}
+
+function foodIcon(type){
+  if(type==='whole')return '<span class="food-icon" aria-label="Gà rán nguyên con"><svg viewBox="0 0 64 48" width="34" height="28" role="img"><path d="M18 12c-7 1-11 7-9 14 2 8 11 13 22 12 12-1 23-8 24-17 1-7-5-12-13-11-5-6-17-5-24 2z" fill="#C9782D" stroke="#874016" stroke-width="2"/><path d="M12 29c-5 3-7 7-4 10 3 3 8 1 11-3M48 31c5 2 8 5 6 8-2 3-7 2-10-1" fill="none" stroke="#F3DCC0" stroke-width="5" stroke-linecap="round"/><path d="M20 15l4 3m6-6 3 4m7-2 3 4M19 29l4 2m12-5 4 2m6 5 3 1" stroke="#F8D79B" stroke-width="2.5" stroke-linecap="round"/></svg></span>';
+  if(type==='cheeseBall')return '<span class="food-icon" aria-label="Cheese ball"><svg viewBox="0 0 48 48" width="36" height="36" role="img"><circle cx="24" cy="24" r="20" fill="#E3A13C" stroke="#9A5B17" stroke-width="2"/><g fill="#F6CF7A"><circle cx="15" cy="17" r="2"/><circle cx="26" cy="11" r="1.8"/><circle cx="34" cy="20" r="2"/><circle cx="12" cy="29" r="1.8"/><circle cx="23" cy="25" r="2.2"/><circle cx="33" cy="33" r="2"/><circle cx="20" cy="36" r="1.8"/></g><path d="M12 14q6-8 16-7" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="3" stroke-linecap="round"/></svg></span>';
+  if(type==='tteok')return '<span class="food-icon" aria-label="Tokbokki"><svg viewBox="0 0 64 48" width="34" height="28" role="img"><path d="M7 19h50l-6 22H13z" fill="#E8A0A0" stroke="#8D3B35" stroke-width="2"/><path d="M11 20q4-14 21-14t21 14z" fill="#C93D32" stroke="#8D2925" stroke-width="2"/><g fill="#FFF0D8" stroke="#D9B98D" stroke-width="1.2"><rect x="16" y="12" width="17" height="7" rx="3.5" transform="rotate(-12 24 15)"/><rect x="31" y="9" width="17" height="7" rx="3.5" transform="rotate(12 39 12)"/><rect x="23" y="19" width="18" height="7" rx="3.5" transform="rotate(-5 32 22)"/></g><path d="M9 19h46" stroke="#F7D8A4" stroke-width="2"/></svg></span>';
+  return ({half:'🍗',cheeseChicken:'🍗🧀',potato:'🍟',cream:'🥣',spicy:'🌶️',bbq:'🍖',mustard:'🍯',cheeseSauce:'🧀🌶️',set:'🍗',noodleRose:'🍝🌹',noodleCream:'🍜🍦',noodleLava:'🍜🌋',chickenBites:'🍡',salad:'🥗',coke:'🥤',grilled:'🍗🔥',stirCheese:'🍳🧀',tteok:'🍲'})[type]||'🍽️';
+}
+
+var MENU=[
+  ['Khoai tây chiên',40000,foodIcon('potato')],
+  ['Sốt Kem',15000,foodIcon('cream')],['Sốt Cay',15000,foodIcon('spicy')],['Sốt BBQ',15000,foodIcon('bbq')],['Sốt Mù tạt mật ong',15000,foodIcon('mustard')],['Sốt Phô mai cay',15000,foodIcon('cheeseSauce')],
+  ['Set Cece',140000,foodIcon('set')+' '+foodIcon('tteok')],
+  ['Gà lắc phô mai đặc biệt',155000,foodIcon('cheeseChicken')],
+  ['Gà rán nửa con Nguyên bản',125000,foodIcon('half')],
+  ['Gà rán 1 con Nguyên bản',250000,foodIcon('whole')],
+  ['Mỳ rose',95000,foodIcon('noodleRose')],['Mỳ Kem phô mai',95000,foodIcon('noodleCream')],['Mỳ lava cheese',99000,foodIcon('noodleLava')],
+  ['Cheese ball',45000,foodIcon('cheeseBall')],['Gà viên',45000,foodIcon('chickenBites')],['Salad',35000,foodIcon('salad')],['Coca',15000,foodIcon('coke')],
+  ['Gà nướng',150000,foodIcon('grilled')],['Gà xào phủ phô mai',90000,foodIcon('stirCheese')]
+];
+function cash(){
+  levelScreen('cash','Thu ngân tập sự','Tính hóa đơn và xử lý thanh toán theo đúng menu Cecebox Pháo Đài Láng.',['8 đơn, 2 món mỗi đơn, mỗi món 1 phần, chọn đúng tổng hóa đơn, không giới hạn thời gian.','8 đơn, 3 món, có thể 2 phần mỗi món. Khách trả tiền mặt thì trả đúng tiền thừa rồi bấm Tiền mặt. Khách dùng ATM thì bấm ATM. Khách chuyển khoản thì tích chọn Lấy hóa đơn GTGT rồi bấm Chuyển khoản. 30 giây mỗi đơn.','8 đơn, 4 món, đến 3 phần mỗi món, có mã giảm 10.000đ. Khách trả tiền mặt chiếm phần lớn, ATM và chuyển khoản ít hơn, tiền mặt có thể đưa nhiều tờ, 5 lựa chọn tiền thừa gần nhau. 25 giây mỗi đơn.'],run);
+  function run2(l){
+    var C=[null,{it:3,q:2,disc:0,lim:30,no:4,nc:4,na:2,multi:0},{it:4,q:3,disc:10000,lim:25,no:5,nc:5,na:Math.random()<0.5?1:2,multi:1}][l];
+    var R=8,i=0,right=0,locked=false,left=0,cur=null,sel=null,gt=false;
+    var plan=[];(function(){var a;for(a=0;a<C.nc;a++)plan.push('cash');for(a=0;a<C.na;a++)plan.push('atm');while(plan.length<8)plan.push('ck');plan=shuffle(plan)})();
+    var PM={cash:'Tiền mặt',atm:'ATM',ck:'Chuyển khoản'};
+    var CQ2={love:['Cảm ơn bạn, nhanh quá!','Phục vụ chuyên nghiệp ghê!'],ok:['Hơi lâu nhưng xong rồi, cảm ơn nhé.','Cuối cùng cũng xong, cảm ơn bạn.'],meh:['Chờ lâu quá, lần sau nhanh hơn nhé.','Xong rồi, mình đợi mệt luôn.']};
+    var MQ=['Em làm sai rồi, chú ý nhé!','Thanh toán sai là khách phàn nàn đó!','Bình tĩnh, làm đúng quy trình nào!'];
+    function make(){
+      var items=shuffle(MENU).slice(0,C.it).map(function(m){return {n:m[0],p:m[1],icon:m[2]||'🍽️',q:1+Math.floor(Math.random()*C.q)}});
+      var sum=0;items.forEach(function(x){sum+=x.p*x.q});
+      var total=sum-C.disc;
+      var method=plan[i];
+      var o={items:items,total:total,method:method};
+      if(method==='cash'){
+        var notes=[],hv=0,big=[50000,100000,200000,500000,1000000],k=0;
+        if(C.multi){
+          var pool=[50000,100000,200000];
+          while(hv<=total){var n=pickOne(pool);notes.push(n);hv+=n}
+        }
+        if(!C.multi||notes.length>4){
+          notes=[];k=0;while(big[k]<=total)k++;
+          if(Math.random()<0.5&&k<big.length-1)k++;
+          notes=[big[k]];hv=big[k];
+        }
+        var cnt={};notes.forEach(function(n){cnt[n]=(cnt[n]||0)+1});
+        var parts=Object.keys(cnt).sort(function(a,b){return b-a}).map(function(n){return cnt[n]+' tờ '+money(Number(n))});
+        o.hv=hv;o.say=parts.join(' + ');o.change=hv-total;
+        var set={},opts=[o.change];set[o.change]=1;
+        var cand=[];
+        items.forEach(function(x){cand.push(o.change+x.p,o.change-x.p)});
+        if(C.disc)cand.push(o.change-C.disc,o.change+C.disc);
+        cand.push(o.change+10000,o.change-10000,o.change+5000,o.change-5000,o.change+2000,o.change-2000,o.change+20000,o.change-20000);
+        shuffle(cand).forEach(function(v){if(opts.length<C.no&&v>=0&&!set[v]){set[v]=1;opts.push(v)}});
+        var d=1;while(opts.length<C.no){var v=o.change+d*3000;if(!set[v]){set[v]=1;opts.push(v)}d++}
+        o.opts=shuffle(opts);
+      }
+      return o;
+    }
+    function guide(){
+      if(cur.method==='cash')return 'Cách đúng: tổng hóa đơn '+money(cur.total)+', khách đưa '+money(cur.hv)+', trả lại '+money(cur.change)+' rồi bấm Tiền mặt.';
+      if(cur.method==='atm')return 'Cách đúng: khách dùng thẻ ATM nên bấm ATM.';
+      return 'Cách đúng: khách chuyển khoản và cần hóa đơn GTGT, nên tích chọn Lấy hóa đơn GTGT trước rồi mới bấm Chuyển khoản.';
+    }
+    function stt(){
+      var e=$('stt');if(!e)return;
+      e.textContent=cur.method==='cash'?'Tiền thừa: '+(sel===null?'chưa chọn':money(sel)):'';
+    }
+    function show(){
+      cur=make();locked=false;left=C.lim;sel=null;gt=false;stopAll();
+      var who=cur.method==='cash'?'Khách đưa '+cur.say+' để trả tiền mặt.':cur.method==='atm'?'Khách quẹt thẻ ATM để thanh toán.':'Khách chuyển khoản và cần lấy hóa đơn GTGT.';
+      var h='<div class="row small"><span>Đơn '+(i+1)+'/'+R+' · Đúng '+right+'</span><span id="tm">Còn '+C.lim+' giây</span></div><div class="bar"><i style="width:'+Math.round(i/R*100)+'%"></i></div><div class="bill">';
+      cur.items.forEach(function(x){h+='<div><span>'+(x.icon||'🍽️')+' '+x.q+' x '+esc(x.n)+'</span><span>'+money(x.p)+'</span></div>'});
+      if(C.disc)h+='<div style="border-top:1px dashed #CDB79B;margin-top:4px;padding-top:4px"><span>Mã giảm giá</span><span>-'+money(C.disc)+'</span></div>';
+      h+='</div><div class="fb" id="cf"><span id="cfa">'+face('ok','#FFE9B8',48)+'</span><div style="flex:1;min-width:0"><b style="font-size:14px" id="cfn">Khách hàng</b><div class="bubble" id="cfb">'+esc(who)+'</div></div></div>';cur.who=who;cur.stage=0;
+      if(cur.method==='cash'){
+        h+='<p style="font-weight:700;margin:6px 0">Trả lại khách bao nhiêu tiền thừa?</p>';
+        cur.opts.forEach(function(v){h+='<button class="opt" data-v="'+v+'" aria-pressed="false" style="font-weight:700">'+money(v)+'</button>'});
+      }
+      h+='<div class="small" id="stt" style="margin:6px 0" role="status" aria-live="polite"></div>';
+      h+='<label class="card" style="display:flex;align-items:center;gap:12px;min-height:48px;padding:10px 14px;margin:0 0 8px;cursor:pointer;font-weight:600"><input type="checkbox" id="gtc" style="width:24px;height:24px;accent-color:#D9541E;flex:none">Lấy hóa đơn GTGT</label><div class="grid2"><button class="btn pri" id="p-cash">Tiền mặt</button><button class="btn pri" id="p-atm">ATM</button><button class="btn pri" id="p-ck">Chuyển khoản</button></div><div id="ex"></div>';
+      app.innerHTML=shell('Thu ngân tập sự',h);bindBack();stt();
+      each('.opt',function(b){b.addEventListener('click',function(){
+        if(locked)return;sel=Number(b.getAttribute('data-v'));
+        each('.opt',function(x){x.className=x===b?'opt sel':'opt';x.setAttribute('aria-pressed',x===b?'true':'false')});stt();
+      })});
+      $('gtc').addEventListener('change',function(){if(locked){$('gtc').checked=gt;return}gt=$('gtc').checked});
+      ['cash','atm','ck'].forEach(function(m){$('p-'+m).addEventListener('click',function(){pay(m)})});
+      every(function(){
+        left--;var e=$('tm');if(e)e.textContent='Còn '+Math.max(left,0)+' giây';
+        if(left<=0){fail('Hết giờ, khách bỏ đi.');return}
+        var stg=left<=C.lim*0.2?2:left<=C.lim*0.5?1:0;
+        if(stg>cur.stage){
+          cur.stage=stg;
+          var cfg=stg===1?['meh','#CFE8F7','Khách đang giục',pickOne(['Nhanh lên giúp mình với!','Mình đang vội, nhanh nhanh nhé!'])]:['bad','#F6B8B0','Khách tức giận',pickOne(['Sao lâu thế! Mình đợi nãy giờ rồi!','Tính tiền kiểu gì mà lâu vậy!'])];
+          $('cfa').innerHTML=face(cfg[0],cfg[1],48);$('cfn').textContent=cfg[2];$('cfb').textContent=cfg[3];
+          $('cf').className='fb shake';
+        }
+      },1000);
+    }
+    function finishOrder(ok,why){
+      locked=true;stopAll();if(ok)right++;$('gtc').disabled=true;
+      each('.opt',function(b){
+        var bv=Number(b.getAttribute('data-v'));
+        if(cur.method==='cash'&&bv===cur.change)b.className='opt ok';
+        else if(bv===sel)b.className='opt no';
+      });
+      var card;
+      if(ok&&cur.method!=='cash'){
+        card='';
+      }else if(ok){
+        var fk=cur.stage===0?'love':cur.stage===1?'ok':'meh';
+        card='<div class="fb">'+face(fk,{love:'#FFD9B0',ok:'#FFE9B8',meh:'#CFE8F7'}[fk],48)+'<div style="flex:1;min-width:0"><b style="font-size:14px">Khách hàng</b><div class="bubble">'+esc(pickOne(CQ2[fk]))+'</div></div></div>';
+      }else{
+        $('cfa').innerHTML=face('bad','#F6B8B0',48);$('cfn').textContent=cur.stage>=1?'Khách tức giận':'Khách khó chịu';
+        card='<div class="fb shake">'+mface('bad','#F6B8B0',48)+'<div style="flex:1;min-width:0"><b style="font-size:14px">Quản lý nhắc nhở</b><div class="bubble">'+esc(pickOne(MQ)+' '+guide())+'</div></div></div>';
+      }
+      $('ex').innerHTML='<p style="font-weight:700;color:'+(ok?'var(--good)':'var(--bad)')+'">'+esc(why)+'</p>'+card+'<button class="btn pri" id="nx">'+(i>=R-1?'Xem kết quả':'Đơn tiếp theo')+'</button>';
+      $('nx').addEventListener('click',function(){i++;if(i>=R){finish()}else{show()}});
+      $('nx').scrollIntoView({block:'nearest'});
+    }
+    function fail(why){if(locked)return;finishOrder(false,why)}
+    function pay(m){
+      if(locked)return;
+      if(m!==cur.method){fail('Khách này thanh toán bằng '+PM[cur.method]+', bạn đã bấm '+PM[m]+'.');return}
+      if(m==='cash'){
+        if(gt){fail('Khách này không cần hóa đơn GTGT nhưng bạn đã tích chọn.');return}
+        if(sel===null){fail('Bạn cần trả tiền thừa trước rồi mới bấm Tiền mặt.');return}
+        if(sel!==cur.change){fail('Tiền thừa chưa đúng.');return}
+        finishOrder(true,'Chính xác! Trả lại '+money(cur.change)+' rồi bấm Tiền mặt.');return;
+      }
+      if(m==='ck'&&!gt){fail('Bạn chưa tích chọn Lấy hóa đơn GTGT cho khách.');return}
+      if(m!=='ck'&&gt){fail('Khách này không cần hóa đơn GTGT nhưng bạn đã tích chọn.');return}
+      finishOrder(true,m==='atm'?'Chính xác! Khách dùng ATM.':'Chính xác! Đã tích hóa đơn GTGT rồi chuyển khoản.');
+    }
+    function finish(){
+      var st=right>=7?3:right>=5?2:1;giveStars('cash',st);
+      endScreen('Thu ngân tập sự',resultCard('Độ '+LVN[l],right+'/'+R+' đơn đúng',st,right>=7?'Thu ngân xuất sắc':right>=5?'Làm việc khá chắc tay':'Cần luyện thêm quy trình thanh toán'),l,run,cash);
+    }
+    show();
+  }
+  function run(l){
+    if(l>0){run2(l);return}
+    var C=[{it:2,q:1,disc:0,lim:0,no:3},{it:3,q:2,disc:0,lim:20,no:4},{it:4,q:3,disc:10000,lim:15,no:4}][l];
+    var R=8,i=0,right=0,locked=false,left=0,cur=null;
+    function make(){
+      var items=shuffle(MENU).slice(0,C.it).map(function(m){return {n:m[0],p:m[1],icon:m[2]||'🍽️',q:1+Math.floor(Math.random()*C.q)}});
+      var sum=0;items.forEach(function(x){sum+=x.p*x.q});
+      var total=sum-C.disc,set={},opts=[total];set[total]=1;
+      var cand=[];
+      items.forEach(function(x){cand.push(total+x.p,total-x.p)});
+      cand.push(total+10000,total-10000,total+5000,total-5000,total+2000,total-2000,total+C.disc);
+      shuffle(cand).forEach(function(v){if(opts.length<C.no&&v>0&&!set[v]){set[v]=1;opts.push(v)}});
+      var d=1000;while(opts.length<C.no){var v=total+d*7;if(!set[v]){set[v]=1;opts.push(v)}d++}
+      return {items:items,total:total,opts:shuffle(opts)};
+    }
+    function show(){
+      cur=make();locked=false;left=C.lim;stopAll();
+      var h='<div class="row small"><span>Đơn '+(i+1)+'/'+R+' · Đúng '+right+'</span><span id="tm">'+(C.lim?'Còn '+C.lim+' giây':'')+'</span></div><div class="bar"><i style="width:'+Math.round(i/R*100)+'%"></i></div><div class="bill">';
+      cur.items.forEach(function(x){h+='<div><span>'+(x.icon||'🍽️')+' '+x.q+' x '+esc(x.n)+'</span><span>'+money(x.p)+'</span></div>'});
+      if(C.disc)h+='<div style="border-top:1px dashed #CDB79B;margin-top:4px;padding-top:4px"><span>Mã giảm giá</span><span>-'+money(C.disc)+'</span></div>';
+      h+='</div><p style="font-weight:700;margin:6px 0">Khách cần trả bao nhiêu?</p>';
+      cur.opts.forEach(function(v){h+='<button class="opt" data-v="'+v+'" style="font-weight:700">'+money(v)+'</button>'});
+      h+='<div id="ex"></div>';
+      app.innerHTML=shell('Thu ngân tập sự',h);bindBack();
+      each('.opt',function(b){b.addEventListener('click',function(){pick(Number(b.getAttribute('data-v')))})});
+      if(C.lim)every(function(){left--;var e=$('tm');if(e)e.textContent='Còn '+Math.max(left,0)+' giây';if(left<=0)pick(null)},1000);
+    }
+    function pick(v){
+      if(locked)return;locked=true;stopAll();
+      var ok=v===cur.total;if(ok)right++;
+      each('.opt',function(b){
+        var bv=Number(b.getAttribute('data-v'));
+        if(bv===cur.total)b.className='opt ok';
+        else if(bv===v)b.className='opt no';
+      });
+      $('ex').innerHTML='<p style="font-weight:700;color:'+(ok?'var(--good)':'var(--bad)')+'">'+(ok?'Chính xác!':(v===null?'Hết giờ.':'Chưa đúng.'))+' Tổng đúng là '+money(cur.total)+'.</p><button class="btn pri" id="nx">'+(i>=R-1?'Xem kết quả':'Đơn tiếp')+'</button>';
+      $('nx').addEventListener('click',function(){i++;if(i>=R){finish()}else{show()}});
+    }
+    function finish(){
+      var st=right>=7?3:right>=5?2:1;giveStars('cash',st);
+      endScreen('Thu ngân tập sự',resultCard('Độ '+LVN[l],right+'/'+R+' đơn đúng',st,right>=7?'Thu ngân xuất sắc':right>=5?'Làm việc khá chắc tay':'Cần luyện thêm tính nhẩm'),l,run,cash);
+    }
+    show();
+  }
+}
+
+var DISH=[
+  ['Khoai tây chiên',['Món ăn kèm được chiên vàng giòn','Dạng thanh dài, thường chấm sốt','Trong menu Cecebox có giá 40K']],
+  ['Set Cece',['Set gà đặc trưng của Cecebox','Ăn kèm tokbokki','Có giá 140K']],
+  ['Gà lắc phô mai đặc biệt',['Món gà được lắc cùng lớp phô mai','Vị béo mặn, thơm phô mai','Có giá 155K']],
+  ['Gà rán nửa con Nguyên bản',['Gà rán giòn với khẩu phần nửa con','Không phủ sốt, giữ vị nguyên bản','Có giá 125K']],
+  ['Gà rán 1 con Nguyên bản',['Khẩu phần gà rán nguyên con','Lớp da vàng giòn, không phải gà sống','Có giá 250K']],
+  ['Mỳ rose',['Món mỳ sốt màu hồng','Sốt béo ngậy, màu rose đặc trưng','Có giá 95K']],
+  ['Mỳ Kem phô mai',['Món mỳ có sốt kem và phô mai','Vị béo mịn, thơm phô mai','Có giá 95K']],
+  ['Mỳ lava cheese',['Món mỳ nổi bật với phô mai','Lớp cheese tan chảy','Có giá 99K']],
+  ['Cheese ball',['Viên ăn vặt có phô mai','Hình viên tròn, lớp ngoài vàng','Có giá 45K']],
+  ['Gà viên',['Món gà chia thành viên nhỏ','Vừa miệng, phù hợp ăn vặt','Có giá 45K']],
+  ['Salad',['Món ăn kèm thanh mát','Có rau củ và màu sắc tươi','Có giá 35K']],
+  ['Coca',['Thức uống có gas','Thường dùng lạnh với đá','Có giá 15K']],
+  ['Gà nướng',['Gà được làm chín bằng phương pháp nướng','Bề mặt vàng nâu, thơm mùi nướng','Có giá 150K']],
+  ['Gà xào phủ phô mai',['Món gà được xào rồi phủ cheese','Kết hợp vị đậm đà và béo','Có giá 90K']],
+  ['Sốt Kem',['Loại sốt chấm vị béo','Dùng kèm khoai hoặc gà','Có giá 15K']],
+  ['Sốt Cay',['Loại sốt có vị cay','Dùng để chấm món ăn','Có giá 15K']],
+  ['Sốt BBQ',['Sốt chấm vị đậm đà','Gợi vị khói ngọt kiểu BBQ','Có giá 15K']],
+  ['Sốt Mù tạt mật ong',['Sốt kết hợp vị mù tạt và mật ong','Có vị ngọt dịu, hơi nồng','Có giá 15K']],
+  ['Sốt Phô mai cay',['Sốt chấm vị phô mai và cay','Béo, cay nhẹ tùy khẩu vị','Có giá 15K']]
+];
+function mon(){
+  levelScreen('mon','Món gì đây?','Đoán tên món ăn hoặc thức uống qua các gợi ý. Gợi ý càng ít, điểm càng cao.',['Hiện sẵn cả 3 gợi ý, mỗi câu đúng 1 điểm.','Hiện 2 gợi ý, đúng được 2 điểm. Xem thêm gợi ý thì trừ 1 điểm.','Chỉ 1 gợi ý, đúng được 3 điểm. Mỗi gợi ý thêm trừ 1 điểm.'],run);
+  function run(l){
+    var R=8,list=shuffle(DISH).slice(0,R),i=0,earned=0,shown=0,locked=false,startShown=[3,2,1][l],maxEach=4-startShown;
+    function show(){
+      var d=list[i];locked=false;shown=startShown;
+      var names=DISH.map(function(x){return x[0]}).filter(function(x){return x!==d[0]});
+      var opts=shuffle([d[0]].concat(shuffle(names).slice(0,3)));
+      var h='<div class="row small"><span>Câu '+(i+1)+'/'+R+'</span><span>Điểm '+earned+'</span></div><div class="bar"><i style="width:'+Math.round(i/R*100)+'%"></i></div><div id="cl"></div><button class="btn" id="hint" style="margin:6px 0 10px;min-height:42px;font-size:14px"></button>';
+      opts.forEach(function(o){h+='<button class="opt" data-o="'+esc(o)+'" style="font-weight:700">'+esc(o)+'</button>'});
+      h+='<div id="ex"></div>';
+      app.innerHTML=shell('Món gì đây?',h);bindBack();
+      function paint(){
+        var c='';
+        for(var k=0;k<shown;k++)c+='<div class="clue">Gợi ý '+(k+1)+': '+esc(d[1][k])+'</div>';
+        $('cl').innerHTML=c;
+        var hb=$('hint');
+        if(shown>=3){hb.style.display='none'}
+        else{hb.style.display='block';hb.textContent='Xem thêm gợi ý (còn được '+Math.max(1,4-shown-1)+' điểm nếu đúng)'}
+      }
+      $('hint').addEventListener('click',function(){if(!locked&&shown<3){shown++;paint()}});
+      each('.opt',function(b){b.addEventListener('click',function(){pick(b.getAttribute('data-o'),d)})});
+      paint();
+    }
+    function pick(v,d){
+      if(locked)return;locked=true;
+      var ok=(v===d[0]),pts=ok?Math.max(1,4-shown):0;
+      earned+=pts;
+      each('.opt',function(b){
+        var bv=b.getAttribute('data-o');
+        if(bv===d[0])b.className='opt ok';else if(bv===v)b.className='opt no';
+      });
+      $('hint').style.display='none';
+      $('ex').innerHTML='<p style="font-weight:700;color:'+(ok?'var(--good)':'var(--bad)')+'">'+(ok?'Chính xác! +'+pts+' điểm.':'Chưa đúng. Đáp án là '+esc(d[0])+'.')+'</p><button class="btn pri" id="nx">'+(i>=R-1?'Xem kết quả':'Câu tiếp')+'</button>';
+      $('nx').addEventListener('click',function(){i++;if(i>=R){finish()}else{show()}});
+    }
+    function finish(){
+      var max=R*maxEach,r=earned/max,st=r>=0.75?3:r>=0.45?2:1;giveStars('mon',st);
+      endScreen('Món gì đây?',resultCard('Độ '+LVN[l],earned+'/'+max+' điểm',st,r>=0.75?'Bạn sành ẩm thực':r>=0.45?'Khá rành món ăn':'Đi ăn nhiều hơn nhé'),l,run,mon);
+    }
+    show();
+  }
+}
+
+function whack(){
+  levelScreen('whack','Gà ló đầu','Chạm vào gà vừa ló lên để ghi điểm. Từ độ Vừa có bẫy: chạm bẫy sẽ bị trừ điểm.',['Lưới 3x3, 30 giây, gà ló chậm, không có bẫy.','Lưới 3x3, 35 giây, gà ló nhanh hơn, 20% là bẫy.','Lưới 6x6, 40 giây, mỗi lượt có 2 ô ló lên, rất nhanh, 30% là bẫy.'],run);
+  function run(l){
+    var C=[{dur:30,show:1100,gap:850,trap:0,G:3,n:1},{dur:35,show:850,gap:650,trap:0.2,G:3,n:1},{dur:40,show:700,gap:520,trap:0.3,G:6,n:2}][l];
+    var G=C.G,CELLS=G*G,ICS=G===6?'34px':'56px';
+    var hits=0,spawned=0,active={},tleft=C.dur,over=false;
+    var h='<div class="row" style="font-size:15px"><span>Điểm <b id="wh">0</b></span><span id="wt">Còn '+C.dur+' giây</span></div><div class="mem" style="grid-template-columns:repeat('+G+',minmax(0,1fr));gap:'+(G===6?'5px':'10px')+';margin:14px 0" id="wg">';
+    for(var k=0;k<CELLS;k++)h+='<button class="hole" data-k="'+k+'" aria-label="Ô trống"></button>';
+    h+='</div><button class="btn pri" id="wgo">Bắt đầu</button><p class="msg" id="wm" role="status" aria-live="polite">Bấm Bắt đầu rồi chạm vào gà.</p>';
+    app.innerHTML=shell('Gà ló đầu',h);bindBack();
+    var holes=[];each('.hole',function(b){holes.push(b)});
+    function clear(k){var b=holes[k];b.className='hole';b.innerHTML='';b.setAttribute('aria-label','Ô trống');delete active[k]}
+    function spawn(){
+      if(over)return;
+      for(var rep=0;rep<C.n;rep++)spawnOne();
+      later(spawn,C.gap*(0.8+Math.random()*0.4));
+    }
+    function spawnOne(){
+      var free=[];for(var k=0;k<CELLS;k++)if(!active[k])free.push(k);
+      if(free.length){
+        var k2=free[Math.floor(Math.random()*free.length)],trap=Math.random()<C.trap;
+        active[k2]=trap?'t':'c';
+        var b=holes[k2];b.className='hole '+(trap?'t':'c');b.innerHTML='<span aria-hidden="true" style="font-size:'+ICS+';line-height:1">'+(trap?'💣':foodIcon('half'))+'</span>';b.setAttribute('aria-label',trap?'Bẫy':'Gà rán');
+        if(!trap)spawned++;
+        later(function(){if(active[k2]){clear(k2)}},C.show);
+      }
+    }
+    holes.forEach(function(b,k){b.addEventListener('click',function(){
+      if(over||!active[k])return;
+      if(active[k]==='c'){hits++}else{hits=Math.max(0,hits-1)}
+      $('wh').textContent=hits;clear(k);
+    })});
+    function end(){
+      over=true;stopAll();
+      var r=spawned?hits/spawned:0,st=r>=0.75?3:r>=0.5?2:1;giveStars('whack',st);
+      endScreen('Gà ló đầu',resultCard('Độ '+LVN[l],hits+' điểm',st,'Bạn chạm đúng '+hits+' trong '+spawned+' con gà ló lên.'),l,run,whack);
+    }
+    $('wgo').addEventListener('click',function(){
+      $('wgo').style.display='none';$('wm').textContent='Chạm vào gà, tránh bẫy!';
+      spawn();
+      every(function(){tleft--;var e=$('wt');if(e)e.textContent='Còn '+Math.max(tleft,0)+' giây';if(tleft<=0)end()},1000);
+    });
+  }
+}
+
+var PROC=[
+  [
+    ['Làm bánh mì kẹp',['Cắt dọc ổ bánh mì','Phết bơ hoặc pa tê','Xếp nhân và rau vào','Kẹp lại và thưởng thức']],
+    ['Chiên trứng ốp la',['Làm nóng chảo','Cho dầu vào chảo','Đập trứng vào','Cho trứng ra đĩa']],
+    ['Pha trà chanh',['Vắt chanh vào ly','Thêm đường và khuấy tan','Cho đá vào ly','Rót trà vào']]
+  ],
+  [
+    ['Pha cà phê sữa đá',['Cho sữa đặc vào ly','Đặt phin lên miệng ly','Cho cà phê và đổ nước nóng','Chờ cà phê nhỏ giọt','Khuấy đều và thêm đá']],
+    ['Làm salad',['Rửa rau','Để rau ráo nước','Cắt rau vừa ăn','Trộn với sốt','Bày ra đĩa']],
+    ['Xào mì',['Luộc mì','Phi thơm hành tỏi','Cho thịt và rau vào xào','Cho mì vào đảo đều','Nêm nếm rồi bày ra đĩa']]
+  ],
+  [
+    ['Chiên gà',['Ướp gà với gia vị','Lăn gà qua bột khô','Nhúng vào hỗn hợp trứng sữa','Lăn lại qua bột lần nữa','Chiên ngập dầu nóng','Vớt ra để ráo dầu']],
+    ['Làm gỏi cuốn',['Luộc tôm và thịt','Chuẩn bị bún và rau','Nhúng bánh tráng cho mềm','Xếp rau, bún, tôm, thịt lên bánh tráng','Cuốn chặt tay','Bày ra đĩa cùng nước chấm']],
+    ['Nấu phở',['Ninh xương lấy nước dùng','Nướng gừng và hành','Trụng bánh phở','Xếp bánh phở và thịt vào tô','Chan nước dùng nóng','Thêm hành và rau thơm']]
+  ]
+];
+function ord(){
+  levelScreen('ord','Sắp xếp quy trình','Chạm các bước theo đúng thứ tự từ đầu đến cuối.',['3 món, mỗi món 4 bước.','3 món, mỗi món 5 bước.','3 món, mỗi món 6 bước.'],run);
+  function run(l){
+    var procs=PROC[l],r=0,mistakes=0,next=0,steps=[];
+    function round(){
+      var p=procs[r];next=0;
+      steps=shuffle(p[1].map(function(s,k){return {t:s,k:k}}));
+      var h='<div class="row small"><span>Món '+(r+1)+'/'+procs.length+'</span><span>Sai: <b id="ms">'+mistakes+'</b></span></div><div class="bar"><i style="width:'+Math.round(r/procs.length*100)+'%"></i></div><p style="font-size:18px;font-weight:700;margin:10px 0">'+esc(p[0])+'</p><p class="sub">Chạm bước đầu tiên, rồi các bước tiếp theo.</p>';
+      steps.forEach(function(s,j){h+='<button class="opt" data-j="'+j+'">'+esc(s.t)+'</button>'});
+      h+='<p class="msg" id="om" role="status" aria-live="polite"></p><div id="ex"></div>';
+      app.innerHTML=shell('Sắp xếp quy trình',h);bindBack();
+      each('.opt',function(b){
+        b.addEventListener('click',function(){
+          if(b.classList.contains('used'))return;
+          var s=steps[Number(b.getAttribute('data-j'))];
+          if(s.k===next){
+            next++;b.className='opt ok used';b.textContent=next+'. '+s.t;b.style.opacity='1';b.style.borderStyle='solid';
+            $('om').textContent='';
+            if(next===p[1].length){
+              $('ex').innerHTML='<p style="font-weight:700;color:var(--good)">Đúng thứ tự rồi!</p><button class="btn pri" id="nx">'+(r>=procs.length-1?'Xem kết quả':'Món tiếp')+'</button>';
+              $('nx').addEventListener('click',function(){r++;if(r>=procs.length){finish()}else{round()}});
+            }
+          }else{
+            mistakes++;$('ms').textContent=mistakes;$('om').textContent='Chưa đúng, thử bước khác.';
+            b.className='opt no';later(function(){if(!b.classList.contains('used'))b.className='opt'},500);
+          }
+        });
+      });
+    }
+    function finish(){
+      var st=mistakes<=1?3:mistakes<=4?2:1;giveStars('ord',st);
+      endScreen('Sắp xếp quy trình',resultCard('Độ '+LVN[l],mistakes+' lần chọn sai',st,mistakes<=1?'Đầu bếp có quy trình rất chuẩn':mistakes<=4?'Khá ổn':'Cần luyện thêm'),l,run,ord);
+    }
+    round();
+  }
+}
+
+var DISHES=[['Khoai tây chiên',foodIcon('potato')],['Sốt Kem',foodIcon('cream')],['Sốt Cay',foodIcon('spicy')],['Sốt BBQ',foodIcon('bbq')],['Sốt Mù tạt mật ong',foodIcon('mustard')],['Sốt Phô mai cay',foodIcon('cheeseSauce')],['Set Cece',foodIcon('set')+' '+foodIcon('tteok')],['Gà lắc phô mai đặc biệt',foodIcon('cheeseChicken')],['Gà rán nửa con Nguyên bản',foodIcon('half')],['Gà rán 1 con Nguyên bản',foodIcon('whole')],['Mỳ rose',foodIcon('noodleRose')],['Mỳ Kem phô mai',foodIcon('noodleCream')],['Mỳ lava cheese',foodIcon('noodleLava')],['Cheese ball',foodIcon('cheeseBall')],['Gà viên',foodIcon('chickenBites')],['Salad',foodIcon('salad')],['Coca',foodIcon('coke')],['Gà nướng',foodIcon('grilled')],['Gà xào phủ phô mai',foodIcon('stirCheese')]];
+function pickOne(a){return a[Math.floor(Math.random()*a.length)]}
+var WL=['Bàn {t} hỏi món mấy lần rồi anh ơi!','Khách bàn {t} đang ngóng món kìa!','Bàn {t} giục món rồi nha, nhanh giúp em!'];
+var ML=['Làm gì mà lâu thế! Khách chờ nãy giờ rồi!','Nhanh tay lên, sắp có khiếu nại bây giờ!','Còn đứng đó à? Ra món ngay cho bàn {t}!'];
+var CQ={love:['Món lên nhanh quá, cảm ơn nhé!','Đúng món, đúng lúc luôn!','Ngon ơi là ngon, chấm 5 sao!'],ok:['Hơi lâu một chút nhưng món đúng rồi.','Cuối cùng cũng có món, đói quá!'],meh:['Chờ lâu quá, lần sau nhanh hơn nhé.','Món đúng nhưng mình đợi mệt rồi.']};
+function srv(){
+  levelScreen('srv','Ra món cho khách','Phiếu order hiện lên. Chạm món để xếp vào khay đúng loại và số lượng, rồi bấm OK để ra món. Xếp sai mất 1 mạng. Làm chậm sẽ bị phục vụ giục và quản lý nhắc.',[
+    '8 đơn, mỗi đơn 1 đến 2 loại món, 4 mạng. Phục vụ giục sau 20 giây, quản lý nhắc sau 40 giây. Thực đơn hiện đủ toàn bộ món, vị trí món cố định. Khi xếp sai có gợi ý thiếu thừa.',
+    '10 đơn, mỗi đơn 2 đến 3 loại món, 3 mạng. Phục vụ giục sau 15 giây, quản lý nhắc sau 30 giây. Thực đơn hiện đủ toàn bộ món, vị trí các món đổi chỗ mỗi đơn.',
+    '12 đơn, mỗi đơn 3 đến 4 loại món, 2 mạng. Phục vụ giục sau 11 giây, quản lý nhắc sau 22 giây. Thực đơn hiện đủ toàn bộ món, vị trí các món đổi chỗ mỗi đơn. Khách có thể gọi thêm món giữa chừng.'
+  ],run);
+  function run(l){
+    var C=[{R:8,lives:4,items:[1,2],qty:[1,2],menu:DISHES.length,W:20,hint:1,add:0},{R:10,lives:3,items:[2,3],qty:[1,2],menu:DISHES.length,W:15,hint:0,add:0,shuf:1},{R:12,lives:2,items:[3,4],qty:[1,2],menu:DISHES.length,W:11,hint:0,add:1,shuf:1}][l];
+    var i=0,lives=C.lives,mistakes=0,scolds=0,warns=0,done=0,used=[],cur,tray,t,lastStage,locked,added;
+    function rnd(a){return a[0]+Math.floor(Math.random()*(a[1]-a[0]+1))}
+    function makeOrder(){
+      var idx=shuffle(DISHES.map(function(_,k){return k})).slice(0,C.menu);
+      var n=rnd(C.items),need={};
+      idx.slice(0,n).forEach(function(k){need[k]=rnd(C.qty)});
+      var table;do{table=1+Math.floor(Math.random()*20)}while(used.indexOf(table)>=0&&used.length<20);used.push(table);
+      return {table:table,need:need,fresh:-1,rest:idx.slice(n)};
+    }
+    function ticketHtml(){
+      var h='<div class="bill"><div><b>Bàn '+cur.table+'</b><span class="small">Phiếu order</span></div>';
+      Object.keys(cur.need).forEach(function(k){
+        h+='<div><span>'+cur.need[k]+' × '+DISHES[k][1]+' '+esc(DISHES[k][0])+(Number(k)===cur.fresh?' <b style="color:var(--brand-d)">(mới)</b>':'')+'</span></div>';
+      });
+      return h+'</div>';
+    }
+    function hud(){
+      var h='';
+      for(var j=0;j<C.lives;j++)h+='<span aria-hidden="true" style="margin-left:3px;font-size:18px;color:'+(j<lives?'#D9341E':'#C9B8A6')+'">♥</span>';
+      var e=$('hud');if(e){e.innerHTML=h;e.setAttribute('aria-label',lives+' mạng')}
+    }
+    function note(who,text){
+      var cfg={w:['Phục vụ','meh','#CFE8F7'],m:['Quản lý','bad','#F6B8B0'],a:['Khách gọi thêm','ok','#FFE9B8']}[who];
+      $('nt').innerHTML='<div class="fb shake">'+(who==='m'?mface:face)(cfg[1],cfg[2],48)+'<div style="flex:1;min-width:0"><b style="font-size:14px">'+cfg[0]+'</b><div class="bubble">'+esc(text)+'</div></div></div>';
+    }
+    function refreshTray(){
+      var ks=Object.keys(tray).filter(function(k){return tray[k]>0});
+      var h=ks.length?'':'<span class="small">Khay đang trống. Chạm món bên dưới để thêm.</span>';
+      ks.forEach(function(k){h+='<button class="chip" data-k="'+k+'" aria-label="Bỏ 1 '+esc(DISHES[k][0])+' khỏi khay">'+tray[k]+' × '+DISHES[k][1]+' '+esc(DISHES[k][0])+' ✕</button>'});
+      $('tr').innerHTML=h;
+      each('.chip',function(b){b.addEventListener('click',function(){
+        if(locked)return;var k=b.getAttribute('data-k');tray[k]--;refreshTray();
+      })});
+      each('.tile',function(b){var q=tray[b.getAttribute('data-i')]||0;var bd=b.querySelector('.badge');bd.textContent=q;bd.style.display=q?'block':'none'});
+    }
+    function same(){
+      var ks=Object.keys(cur.need).concat(Object.keys(tray));
+      return ks.every(function(k){return (cur.need[k]||0)===(tray[k]||0)});
+    }
+    function hintText(){
+      var parts=[];
+      Object.keys(DISHES).forEach(function(k){
+        var d=(tray[k]||0)-(cur.need[k]||0);
+        if(d<0)parts.push('thiếu '+(-d)+' '+DISHES[k][0]);else if(d>0)parts.push('thừa '+d+' '+DISHES[k][0]);
+      });
+      return parts.join(', ');
+    }
+    function show(){
+      stopAll();cur=makeOrder();tray={};t=0;lastStage=0;locked=false;added=false;
+      var h='<div class="row small"><span>Đơn <b>'+(i+1)+'</b>/'+C.R+' · Đã ra '+done+'</span><span id="hud"></span></div><div class="small" style="margin-top:6px">Khách đang chờ</div><div class="bar" style="margin-top:2px"><i id="pt" style="width:0;background:#5B9F5B"></i></div><div id="nt" role="status" aria-live="polite"></div><div id="tk">'+ticketHtml()+'</div><div class="tiles">';
+      var seq=DISHES.map(function(_,k){return k});if(C.shuf)seq=shuffle(seq);
+      var mh='<div class="small" style="margin-top:4px">Thực đơn ('+DISHES.length+' món, chạm để thêm vào khay)</div><div class="tiles menu">';
+      seq.forEach(function(k){var d=DISHES[k];
+        mh+='<button class="tile" data-i="'+k+'" aria-label="Thêm '+esc(d[0])+'"><span class="badge" style="display:none">0</span><span class="em" aria-hidden="true">'+d[1]+'</span><span class="nm">'+esc(d[0])+'</span></button>';
+      });
+      mh+='</div>';
+      h=h.replace('<div class="tiles">','');
+      h+='<div class="card" style="padding:10px 12px"><div class="small">Khay của bạn</div><div id="tr"></div></div><p class="msg" id="mg" role="status" aria-live="polite" style="min-height:24px"></p><div style="display:grid;grid-template-columns:1fr 2fr;gap:8px"><button class="btn" id="cl">Xóa khay</button><button class="btn pri" id="ok">OK, ra món</button></div><div id="ex"></div>'+mh;
+      app.innerHTML=shell('Ra món cho khách',h);bindBack();hud();refreshTray();
+      each('.tile',function(b){b.addEventListener('click',function(){
+        if(locked)return;var k=b.getAttribute('data-i');tray[k]=(tray[k]||0)+1;$('mg').textContent='';refreshTray();
+      })});
+      $('cl').addEventListener('click',function(){if(locked)return;tray={};$('mg').textContent='';refreshTray()});
+      $('ok').addEventListener('click',onOk);
+      every(tick,1000);
+    }
+    function tick(){
+      if(locked)return;
+      t++;
+      var pt=$('pt');
+      if(pt){pt.style.width=Math.min(100,Math.round(t/(2*C.W)*100))+'%';pt.style.background=t<C.W?'#5B9F5B':t<2*C.W?'#E0A020':'#D9341E'}
+      var stage=Math.floor(t/C.W);
+      if(stage>lastStage){
+        lastStage=stage;
+        if(stage===1){warns++;note('w',pickOne(WL).replace('{t}',cur.table))}
+        else{scolds++;note('m',pickOne(ML).replace('{t}',cur.table))}
+      }
+      if(C.add&&!added&&t===6&&cur.rest.length){
+        added=true;var k=cur.rest[0];cur.need[k]=1;cur.fresh=k;
+        $('tk').innerHTML=ticketHtml();note('a','Bàn '+cur.table+' gọi thêm 1 '+DISHES[k][0]+'!');
+      }
+    }
+    function onOk(){
+      if(locked)return;
+      var any=Object.keys(tray).some(function(k){return tray[k]>0});
+      if(!any){$('mg').style.color='var(--bad)';$('mg').textContent='Khay đang trống, hãy chọn món trước.';return}
+      if(same()){
+        locked=true;stopAll();done++;
+        var kind=lastStage===0?'love':lastStage===1?'ok':'meh';
+        var bg={love:'#FFD9B0',ok:'#FFE9B8',meh:'#CFE8F7'}[kind];
+        $('mg').textContent='';
+        $('ex').innerHTML='<div class="fb">'+face(kind,bg,56)+'<div style="flex:1;min-width:0"><b>Bàn '+cur.table+' đã nhận món</b><div class="bubble">'+esc(pickOne(CQ[kind]))+'</div><div class="small">Ra món sau '+t+' giây</div></div></div><button class="btn pri" id="nx">'+(i>=C.R-1?'Xem kết quả':'Đơn tiếp theo')+'</button>';
+        $('nx').addEventListener('click',function(){i++;if(i>=C.R)finish(true);else show()});
+      }else{
+        lives--;mistakes++;
+        var hi=C.hint?hintText():'';
+        tray={};refreshTray();hud();
+        $('mg').style.color='var(--bad)';
+        $('mg').textContent='Xếp sai rồi, mất 1 mạng.'+(hi?' Khay '+hi+'.':'');
+        if(lives<=0){stopAll();locked=true;later(function(){finish(false)},900)}
+      }
+    }
+    function finish(win){
+      stopAll();
+      var pen=mistakes+scolds,st=win?(pen<=2?3:pen<=5?2:1):0;
+      if(win)giveStars('srv',st);
+      var kind=!win?'bad':pen<=2?'love':pen<=5?'ok':'meh';
+      var bg={love:'#FFD9B0',ok:'#FFE9B8',meh:'#CFE8F7',bad:'#F6B8B0'}[kind];
+      var say=!win?'Hết mạng rồi! Hôm nay em nghỉ ca sớm nhé!':pen<=2?'Ra món nhanh và đúng, khách rất hài lòng!':pen<=5?'Khá ổn, nhớ nhanh tay hơn một chút nhé.':'Khách chờ lâu quá, cần luyện thêm nhé.';
+      var res=resultCard('Độ '+LVN[l],done+'/'+C.R+' đơn đã ra',st,'Sai '+mistakes+' lần · Bị giục hoặc nhắc '+(warns+scolds)+' lần')+
+        '<div class="fb">'+mface(kind,bg,56)+'<div style="flex:1;min-width:0"><b>Quản lý</b><div class="bubble">'+esc(say)+'</div></div></div>';
+      endScreen('Ra món cho khách',res,l,run,srv);
+    }
+    show();
+  }
+}
+var SHN=["Khoai", "Sốt kem", "Sốt cay", "Sốt BBQ", "Sốt mật ong", "Sốt phô mai cay", "Set Cece", "Gà lắc phô mai", "Gà nửa con", "Gà 1 con", "Mỳ rose", "Mỳ kem phô mai", "Mỳ lava", "Cheese ball", "Gà viên", "Salad", "Coca", "Gà nướng", "Gà xào phô mai"];
+var TYPES=DISHES.map(function(d,i){return [d[0],d[1],SHN[i]]});
+var GN=['Linh','Minh','Huy','An','Trang','Khoa','Vy','Nam','Lan','Bảo','Hà','Tuấn'];
+function wait(){
+  levelScreen('wait','Chạy bàn','Khách ngồi ở các bàn và gọi món bằng bong bóng. Bong bóng gọi món chỉ hiện icon, hãy nhìn icon rồi chạm đúng món trong thực đơn, sau đó chạm bàn đang cần để mang ra. Khách chờ lâu sẽ giận bỏ về và bạn mất 1 mạng.',[
+    '12 khách, 4 bàn, mỗi khách gọi 1 món trong thực đơn Cecebox (hiện đủ 19 món), 4 mạng. Khách kiên nhẫn khoảng 28 giây.',
+    '16 khách, 6 bàn, mỗi khách gọi 1 đến 2 món, 3 mạng. Khách kiên nhẫn khoảng 22 giây.',
+    '20 khách, 6 bàn, mỗi khách gọi 2 đến 3 món, 2 mạng. Khách ít kiên nhẫn hơn và đông liên tục.'
+  ],run);
+  function run(l){
+    var C=[{R:12,N:4,T:TYPES.length,nd:[1,1],P:28,add:0,gap:6,lives:4},{R:16,N:6,T:TYPES.length,nd:[1,2],P:22,add:5,gap:5,lives:3},{R:20,N:6,T:TYPES.length,nd:[2,3],P:17,add:4,gap:5,lives:2}][l];
+    var tb=[],last=[],lives=C.lives,spawned=0,served=0,lost=0,mistakes=0,score=0,combo=0,maxCombo=0,sel=null,spawnT=C.gap,cid=0,over=false;
+    var BG={ok:'#FFE9B8',meh:'#CFE8F7',bad:'#F6B8B0'};
+    for(var q=0;q<C.N;q++){tb.push(null);last.push('')}
+    var h='<div class="row small"><span>Khách hài lòng <b id="sv">0</b>/'+C.R+' · Điểm <b id="sc">0</b></span><span id="hud"></span></div><div class="small" id="cb" style="min-height:18px;color:var(--brand-d);font-weight:700"></div><div id="nt" role="status" aria-live="polite" style="min-height:8px"></div><div style="display:grid;grid-template-columns:repeat('+(C.N===4?2:3)+',minmax(0,1fr));gap:8px;margin:6px 0">';
+    for(var i=0;i<C.N;i++)h+='<button class="tb" id="tb'+i+'" data-t="'+i+'"><div class="body" id="tbd'+i+'"></div><div class="bar" style="width:90%;height:7px;margin:2px 0 0"><i id="tp'+i+'" style="width:0"></i></div></button>';
+    h+='</div><div class="small">Thực đơn (chạm để chọn món, rồi chạm bàn đang cần)</div><div class="tiles wm" style="grid-template-columns:repeat(4,minmax(0,1fr));gap:6px">';
+    for(var k=0;k<C.T;k++)h+='<button class="tile" data-k="'+k+'" aria-pressed="false" aria-label="Chọn '+esc(TYPES[k][0])+'"><span class="em" aria-hidden="true">'+TYPES[k][1]+'</span><span class="nm">'+esc(TYPES[k][0])+'</span></button>';
+    h+='</div><p class="msg" id="mg" role="status" aria-live="polite" style="min-height:24px">Chọn món ở khay, rồi chạm bàn đang cần món đó.</p>';
+    app.innerHTML=shell('Chạy bàn',h);bindBack();
+    function hud(){
+      var x='';for(var j=0;j<C.lives;j++)x+='<span aria-hidden="true" style="margin-left:3px;font-size:18px;color:'+(j<lives?'#D9341E':'#C9B8A6')+'">♥</span>';
+      $('hud').innerHTML=x;$('hud').setAttribute('aria-label',lives+' mạng');
+      $('sv').textContent=served;$('sc').textContent=score;
+      $('cb').textContent=combo>=2?'Combo x'+combo:'';
+    }
+    function msg(t,bad){var m=$('mg');m.style.color=bad?'var(--bad)':'var(--good)';m.textContent=t}
+    function note(who,text){
+      var cfg=who==='m'?['Quản lý','bad','#F6B8B0']:['Phục vụ','meh','#CFE8F7'];
+      $('nt').innerHTML='<div class="fb shake">'+(who==='m'?mface:face)(cfg[1],cfg[2],44)+'<div style="flex:1;min-width:0"><b style="font-size:14px">'+cfg[0]+'</b><div class="bubble">'+esc(text)+'</div></div></div>';
+    }
+    function kindOf(c){var r=c.t/c.P;return r<0.5?'ok':r<0.8?'meh':'bad'}
+    function paint(i){
+      var c=tb[i],body=$('tbd'+i),btn=$('tb'+i),sig;
+      if(!c){sig='e';if(last[i]!==sig){body.innerHTML='<div class="small" style="opacity:.6">Bàn '+(i+1)+' trống</div>';btn.setAttribute('aria-label','Bàn '+(i+1)+' trống');last[i]=sig}$('tp'+i).style.width='0';return}
+      var kd=kindOf(c);sig=c.id+kd+c.needs.join(',');
+      if(last[i]!==sig){
+        var nd='';c.needs.forEach(function(k){nd+='<span class="bub"><span class="ic" aria-hidden="true">'+TYPES[k][1]+'</span></span>'});
+        body.innerHTML='<div class="small">Bàn '+(i+1)+' · '+esc(c.name)+'</div>'+face(kd,BG[kd],44)+'<div style="display:flex;flex-wrap:wrap;justify-content:center;gap:2px">'+nd+'</div>';
+        btn.setAttribute('aria-label','Bàn '+(i+1)+' cần '+c.needs.map(function(k){return TYPES[k][0]}).join(', '));
+        last[i]=sig;
+      }
+      var p=$('tp'+i),r=Math.min(1,c.t/c.P);p.style.width=Math.round(r*100)+'%';p.style.background=r<0.5?'#5B9F5B':r<0.8?'#E0A020':'#D9341E';
+    }
+    function spawn(){
+      var free=[];for(var i=0;i<C.N;i++)if(!tb[i])free.push(i);
+      if(!free.length)return false;
+      var i=pickOne(free),n=C.nd[0]+Math.floor(Math.random()*(C.nd[1]-C.nd[0]+1));
+      var needs=shuffle(TYPES.slice(0,C.T).map(function(_,k){return k})).slice(0,n);
+      tb[i]={id:++cid,name:pickOne(GN),needs:needs,t:0,P:C.P+C.add*(n-1),warned:false};
+      spawned++;paint(i);return true;
+    }
+    function active(){return tb.filter(function(c){return c}).length}
+    var WL2=['Bàn {t} đang giục món kìa!','Khách bàn {t} sắp hết kiên nhẫn rồi!'];
+    var ML2=['Sao để khách bàn {t} bỏ về thế! Nhanh tay lên!','Mất khách rồi! Chú ý các bàn đang đợi nhé!'];
+    function tick(){
+      if(over)return;
+      var dt=0.25;spawnT+=dt;
+      if(spawned<C.R&&(spawnT>=C.gap||active()===0)){if(spawn())spawnT=0}
+      for(var i=0;i<C.N;i++){
+        var c=tb[i];if(!c)continue;
+        c.t+=dt;
+        if(c.t>=c.P){
+          tb[i]=null;lives--;lost++;combo=0;
+          note('m',pickOne(ML2).replace('{t}',i+1));msg('Khách bàn '+(i+1)+' giận bỏ về. Mất 1 mạng.',true);
+          paint(i);hud();
+          if(lives<=0){finish(false);return}
+        }else{
+          if(!c.warned&&c.t/c.P>=0.7){c.warned=true;note('w',pickOne(WL2).replace('{t}',i+1))}
+          paint(i);
+        }
+      }
+      if(spawned>=C.R&&active()===0)finish(true);
+    }
+    function onTable(i){
+      if(over)return;var c=tb[i];if(!c)return;
+      if(sel===null){msg('Hãy chọn một món ở khay trước.',true);return}
+      var ix=c.needs.indexOf(sel);
+      if(ix<0){
+        mistakes++;combo=0;c.t+=c.P*0.2;
+        msg('Bàn '+(i+1)+' không gọi '+TYPES[sel][0]+'. Khách sốt ruột hơn rồi.',true);paint(i);hud();return;
+      }
+      c.needs.splice(ix,1);combo++;if(combo>maxCombo)maxCombo=combo;
+      score+=10+Math.min(combo,5)*2;
+      if(!c.needs.length){
+        served++;if(c.t/c.P<0.5)score+=20;
+        msg('Bàn '+(i+1)+' hài lòng! '+pickOne(['Cảm ơn bạn nhé!','Ngon quá!','Phục vụ nhanh thật!']));
+        tb[i]=null;
+      }else msg('Đúng món rồi, bàn '+(i+1)+' còn cần thêm.');
+      paint(i);hud();
+    }
+    function finish(win){
+      over=true;stopAll();
+      var st=win?(lost===0?3:lost<=Math.floor(C.lives/2)?2:1):0;
+      if(win)giveStars('wait',st);
+      var kind=!win?'bad':st===3?'love':st===2?'ok':'meh';
+      var bg={love:'#FFD9B0',ok:'#FFE9B8',meh:'#CFE8F7',bad:'#F6B8B0'}[kind];
+      var say=!win?'Khách bỏ về hết rồi! Mai mình làm lại nhé.':st===3?'Cả ca không mất khách nào, quá giỏi!':st===2?'Khá tốt, chỉ lỡ vài khách thôi.':'Ca này hơi vất vả, nhưng bạn đã cố gắng.';
+      var res=resultCard('Độ '+LVN[l],served+'/'+C.R+' khách hài lòng',st,'Điểm '+score+' · Combo cao nhất x'+maxCombo+' · Khách bỏ về '+lost)+
+        '<div class="fb">'+mface(kind,bg,56)+'<div style="flex:1;min-width:0"><b>Quản lý</b><div class="bubble">'+esc(say)+'</div></div></div>';
+      endScreen('Chạy bàn',res,l,run,wait);
+    }
+    each('.tile',function(b){b.addEventListener('click',function(){
+      sel=Number(b.getAttribute('data-k'));
+      each('.tile',function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});
+    })});
+    each('.tb',function(b){b.addEventListener('click',function(){onTable(Number(b.getAttribute('data-t')))})});
+    hud();for(var j=0;j<C.N;j++)paint(j);
+    every(tick,250);tick();
+  }
+}
+
+
+
+if(save.nick)logEvent('open');
+home();
+})();
+</script>
+</body>
+</html>
