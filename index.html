@@ -1121,14 +1121,14 @@ function wait(){
   levelScreen('wait','Chạy bàn','Khách ngồi ở các bàn và gọi món bằng bong bóng. Bong bóng gọi món chỉ hiện icon, hãy nhìn icon rồi chạm đúng món trong thực đơn, sau đó chạm bàn đang cần để mang ra. Khách chờ lâu sẽ giận bỏ về và bạn mất 1 mạng.',[
     '12 khách, 4 bàn, mỗi khách gọi 1 món trong thực đơn Cecebox (hiện đủ 16 món), 4 mạng. Khách kiên nhẫn khoảng 28 giây.',
     '16 khách, 6 bàn, mỗi khách gọi 1 đến 2 món, 3 mạng. Khách kiên nhẫn khoảng 22 giây.',
-    '20 khách, 6 bàn, mỗi khách gọi 2 đến 3 món, 2 mạng. Khách ít kiên nhẫn hơn và đông liên tục.'
+    '20 khách, 8 bàn, mỗi khách gọi 2 đến 3 món, 2 mạng. Phải ra món theo thứ tự khách đến, ai đến trước phục vụ trước. Ra món nhảy cóc là khách đến trước sẽ rất khó chịu. Mỗi khi có bàn mới, thực đơn sẽ đổi chỗ!'
   ],run);
   function run(l){
-    var C=[{R:12,N:4,T:TYPES.length,nd:[1,1],P:28,add:0,gap:6,lives:4},{R:16,N:6,T:TYPES.length,nd:[1,2],P:22,add:5,gap:5,lives:3},{R:20,N:6,T:TYPES.length,nd:[2,3],P:17,add:4,gap:5,lives:2}][l];
+    var C=[{R:12,N:4,T:TYPES.length,nd:[1,1],P:28,add:0,gap:6,lives:4},{R:16,N:6,T:TYPES.length,nd:[1,2],P:22,add:5,gap:5,lives:3},{R:20,N:8,T:TYPES.length,nd:[2,3],P:17,add:4,gap:5,lives:2,shuf:1,ord:1}][l];
     var tb=[],last=[],lives=C.lives,spawned=0,served=0,lost=0,mistakes=0,score=0,combo=0,maxCombo=0,sel=null,spawnT=C.gap,cid=0,over=false;
     var BG={ok:'#FFE9B8',meh:'#CFE8F7',bad:'#F6B8B0'};
     for(var q=0;q<C.N;q++){tb.push(null);last.push('')}
-    var h='<div class="row small"><span>Khách hài lòng <b id="sv">0</b>/'+C.R+' · Điểm <b id="sc">0</b></span><span id="hud"></span></div><div class="small" id="cb" style="min-height:18px;color:var(--brand-d);font-weight:700"></div><div id="nt" role="status" aria-live="polite" style="min-height:8px"></div><div style="display:grid;grid-template-columns:repeat('+(C.N===4?2:3)+',minmax(0,1fr));gap:8px;margin:6px 0">';
+    var h='<div class="row small"><span>Khách hài lòng <b id="sv">0</b>/'+C.R+' · Điểm <b id="sc">0</b></span><span id="hud"></span></div><div class="small" id="cb" style="min-height:18px;color:var(--brand-d);font-weight:700"></div><div id="nt" role="status" aria-live="polite" style="min-height:8px"></div><div style="display:grid;grid-template-columns:repeat('+(C.N===4?2:C.N>6?4:3)+',minmax(0,1fr));gap:'+(C.N>6?'5px':'8px')+';margin:6px 0">';
     for(var i=0;i<C.N;i++)h+='<button class="tb" id="tb'+i+'" data-t="'+i+'"><div class="body" id="tbd'+i+'"></div><div class="bar" style="width:90%;height:7px;margin:2px 0 0"><i id="tp'+i+'" style="width:0"></i></div></button>';
     h+='</div><div class="small">Thực đơn (chạm để chọn món, rồi chạm bàn đang cần)</div><div class="tiles wm" style="grid-template-columns:repeat(4,minmax(0,1fr));gap:6px">';
     for(var k=0;k<C.T;k++)h+='<button class="tile" data-k="'+k+'" aria-pressed="false" aria-label="Chọn '+esc(TYPES[k][0])+'"><span class="em" aria-hidden="true">'+TYPES[k][1]+'</span><span class="nm">'+esc(TYPES[k][0])+'</span></button>';
@@ -1146,14 +1146,15 @@ function wait(){
       $('nt').innerHTML='<div class="fb shake">'+(who==='m'?mface:face)(cfg[1],cfg[2],44)+'<div style="flex:1;min-width:0"><b style="font-size:14px">'+cfg[0]+'</b><div class="bubble">'+esc(text)+'</div></div></div>';
     }
     function kindOf(c){var r=c.t/c.P;return r<0.5?'ok':r<0.8?'meh':'bad'}
+    function nm(c,i){return C.ord&&c?c.seq:i+1}
     function paint(i){
       var c=tb[i],body=$('tbd'+i),btn=$('tb'+i),sig;
-      if(!c){sig='e';if(last[i]!==sig){body.innerHTML='<div class="small" style="opacity:.6">Bàn '+(i+1)+' trống</div>';btn.setAttribute('aria-label','Bàn '+(i+1)+' trống');last[i]=sig}$('tp'+i).style.width='0';return}
+      if(!c){sig='e';if(last[i]!==sig){body.innerHTML='<div class="small" style="opacity:.6">'+(C.ord?'Bàn trống':'Bàn '+(i+1)+' trống')+'</div>';btn.setAttribute('aria-label',C.ord?'Bàn trống':'Bàn '+(i+1)+' trống');last[i]=sig}$('tp'+i).style.width='0';return}
       var kd=kindOf(c);sig=c.id+kd+c.needs.join(',');
       if(last[i]!==sig){
         var nd='';c.needs.forEach(function(k){nd+='<span class="bub"><span class="ic" aria-hidden="true">'+TYPES[k][1]+'</span></span>'});
-        body.innerHTML='<div class="small">Bàn '+(i+1)+' · '+esc(c.name)+'</div>'+face(kd,BG[kd],44)+'<div style="display:flex;flex-wrap:wrap;justify-content:center;gap:2px">'+nd+'</div>';
-        btn.setAttribute('aria-label','Bàn '+(i+1)+' cần '+c.needs.map(function(k){return TYPES[k][0]}).join(', '));
+        body.innerHTML='<div class="'+(C.ord?'':'small')+'" style="'+(C.ord?'font-size:16px;font-weight:800;color:var(--brand-d);line-height:1.1':'')+'">Bàn '+nm(c,i)+(C.ord?'':' · '+esc(c.name))+'</div>'+face(kd,BG[kd],C.N>6?36:44)+'<div style="display:flex;flex-wrap:wrap;justify-content:center;gap:2px">'+nd+'</div>';
+        btn.setAttribute('aria-label','Bàn '+nm(c,i)+' cần '+c.needs.map(function(k){return TYPES[k][0]}).join(', '));
         last[i]=sig;
       }
       var p=$('tp'+i),r=Math.min(1,c.t/c.P);p.style.width=Math.round(r*100)+'%';p.style.background=r<0.5?'#5B9F5B':r<0.8?'#E0A020':'#D9341E';
@@ -1163,8 +1164,16 @@ function wait(){
       if(!free.length)return false;
       var i=pickOne(free),n=C.nd[0]+Math.floor(Math.random()*(C.nd[1]-C.nd[0]+1));
       var needs=shuffle(TYPES.slice(0,C.T).map(function(_,k){return k})).slice(0,n);
-      tb[i]={id:++cid,name:pickOne(GN),needs:needs,t:0,P:C.P+C.add*(n-1),warned:false};
-      spawned++;paint(i);return true;
+      tb[i]={id:++cid,seq:cid,name:pickOne(GN),needs:needs,t:0,P:C.P+C.add*(n-1),warned:false,jumped:{}};
+      spawned++;paint(i);
+      if(C.shuf&&spawned>1)shuffleMenu();
+      return true;
+    }
+    function shuffleMenu(){
+      var box=app.querySelector('.tiles.wm');if(!box)return;
+      var els={};each('.tile',function(b){els[b.getAttribute('data-k')]=b});
+      shuffle(Object.keys(els)).forEach(function(k){box.appendChild(els[k])});
+      msg('Có bàn mới! Thực đơn vừa đổi chỗ, nhìn kỹ nhé.',false);
     }
     function active(){return tb.filter(function(c){return c}).length}
     var WL2=['Bàn {t} đang giục món kìa!','Khách bàn {t} sắp hết kiên nhẫn rồi!'];
@@ -1178,11 +1187,11 @@ function wait(){
         c.t+=dt;
         if(c.t>=c.P){
           tb[i]=null;lives--;lost++;combo=0;
-          note('m',pickOne(ML2).replace('{t}',i+1));msg('Khách bàn '+(i+1)+' giận bỏ về. Mất 1 mạng.',true);
+          note('m',pickOne(ML2).replace('{t}',nm(c,i)));msg('Khách bàn '+nm(c,i)+' giận bỏ về. Mất 1 mạng.',true);
           paint(i);hud();
           if(lives<=0){finish(false);return}
         }else{
-          if(!c.warned&&c.t/c.P>=0.7){c.warned=true;note('w',pickOne(WL2).replace('{t}',i+1))}
+          if(!c.warned&&c.t/c.P>=0.7){c.warned=true;note('w',pickOne(WL2).replace('{t}',nm(c,i)))}
           paint(i);
         }
       }
@@ -1194,15 +1203,25 @@ function wait(){
       var ix=c.needs.indexOf(sel);
       if(ix<0){
         mistakes++;combo=0;c.t+=c.P*0.2;
-        msg('Bàn '+(i+1)+' không gọi '+TYPES[sel][0]+'. Khách sốt ruột hơn rồi.',true);paint(i);hud();return;
+        msg('Bàn '+nm(c,i)+' không gọi '+TYPES[sel][0]+'. Khách sốt ruột hơn rồi.',true);paint(i);hud();return;
+      }
+      if(C.ord){
+        var hit=null;
+        tb.forEach(function(o,oi){
+          if(o&&o!==c&&o.seq<c.seq&&!c.jumped[o.id]){
+            c.jumped[o.id]=1;o.t+=o.P*0.35;combo=0;mistakes++;
+            if(!hit||o.seq<tb[hit-1].seq)hit=oi+1;
+          }
+        });
+        if(hit){note('w','Bàn '+nm(tb[hit-1],hit-1)+' đến trước mà bàn '+nm(c,i)+' lại có món trước. Khách bàn '+nm(tb[hit-1],hit-1)+' rất khó chịu!');msg('Ra món nhảy cóc: khách đến trước đang rất khó chịu.',true);for(var pj=0;pj<C.N;pj++)paint(pj);hud()}
       }
       c.needs.splice(ix,1);combo++;if(combo>maxCombo)maxCombo=combo;
       score+=10+Math.min(combo,5)*2;
       if(!c.needs.length){
         served++;if(c.t/c.P<0.5)score+=20;
-        msg('Bàn '+(i+1)+' hài lòng! '+pickOne(['Cảm ơn bạn nhé!','Ngon quá!','Phục vụ nhanh thật!']));
+        msg('Bàn '+nm(c,i)+' hài lòng! '+pickOne(['Cảm ơn bạn nhé!','Ngon quá!','Phục vụ nhanh thật!']));
         tb[i]=null;
-      }else msg('Đúng món rồi, bàn '+(i+1)+' còn cần thêm.');
+      }else msg('Đúng món rồi, bàn '+nm(c,i)+' còn cần thêm.');
       paint(i);hud();
     }
     function finish(win){
